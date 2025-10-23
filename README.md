@@ -98,10 +98,4 @@ Follow-up yang disarankan
 - Tambah unit tests untuk model utama (`Anggaran_model`, `Rka_model`)
 - Tambah dokumentasi API singkat jika frontend berbicara ke endpoint AJAX
 
-Jika Anda mau, saya bisa:
-
-- Membuat file dump SQL struktur minimal untuk menjalankan contoh data
-- Memperbaiki beberapa titik SQL injection di controller menjadi query binding
-- Membuat dokumentasi endpoint API lebih rinci (contoh payload/respons)
-
 ---
