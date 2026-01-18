@@ -5,7 +5,8 @@ if (!$this->session->userdata('kode_bidang')) {
 //echo '<pre>';print_r($pejabat);echo '</pre>';
 ?>
 
-                
+<div><button id="view-data-pemohon-rincian" class="btn btn-primary btn-xs">Detail Data Pemohon dan Rincian</button></div>
+            <div id="data-pemohon-rincian" style="display:none;">                
                 <!--<div class="panel panel-default">-->
                     <!--<div class="panel-body">-->
                         <div class="boxx box-primary">                            
@@ -170,29 +171,49 @@ if (!$this->session->userdata('kode_bidang')) {
                                 </div>
                             <!--</div>
                         </div>-->
-                                                    <hr>
+            </div>
+                        <hr>
                     <div class="row" style="width:99%; margin:0 auto;">
 
                         <div class="col-sm-12 kotak">
-                            <div class="box-header with-border text-center" style="line-height:7px"><b>Approval</b></div>
+                            <div class="box-header with-border text-center" style="line-height:7px"><b>Proses Cetak Kwitansi</b></div>
                             <br>
                             <div id="approvalForm" class="text-center">
                                 <form class="form-horizontal">
-                                    
+                                    <!--
                                     <div class="form-group">
                                         <label for="tgl_umko_cair" class="control-label col-xs-4" style="color:#555">Tanggal UMKO Cair :</label>
                                         <div class="col-xs-3">
                                             <input class="form-control" id="tgl_umko_cair" name="tgl_umko_cair" size="10" value="???" />
                                         </div>
                                     </div>
+                                                -->
                                     <div class="form-group">
-                                        <label for="nominal_umko_cair" class="control-label col-xs-4" style="color:#555">Nominal UMKO Cair :</label>
+                                        <label for="nominal_umko_cair" class="control-label col-xs-4" style="color:#555">Telah Terima Dari :</label>
+                                        <div class="col-xs-3">
+                                            <input class="form-control" id="telah_terima_dari" name="telah_terima_dari" size="10" value="PUM CASH CARD" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nominal_umko_cair" class="control-label col-xs-4" style="color:#555">Uang Sejumlah :</label>
                                         <div class="col-xs-3">
                                             <input class="form-control" id="nominal_umko_cair" name="nominal_umko_cair" size="10" value="<?=number_format($nominal_disetujui_umko)?>" />
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="kasir_penerima" class="control-label col-xs-4" style="color:#555">Penerima :</label>
+                                        <label for="nominal_umko_cair" class="control-label col-xs-4" style="color:#555">Untuk Pembayaran :</label>
+                                        <div class="col-xs-3">
+                                            <input class="form-control" id="untuk_pembayaran" name="untuk_pembayaran" size="10" value="<?= $untuk_pembayaran ?>, " />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="yang_menyerahkan" class="control-label col-xs-4" style="color:#555">Yang Menyerahkan :</label>
+                                        <div class="col-xs-3">
+                                            <input class="form-control" id="yang_menyerahkan" name="yang_menyerahkan" size="10" value="<?=$yang_menyerahkan?>" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="kasir_penerima" class="control-label col-xs-4" style="color:#555">Yang Menerima :</label>
                                         <div class="col-xs-3">
                                             <input class="form-control" id="kasir_penerima" name="kasir_penerima" size="10" value="<?=$kasir_penerima?>" />
                                         </div>
@@ -204,8 +225,9 @@ if (!$this->session->userdata('kode_bidang')) {
                                         </div>
                                     </div> 
                                 </form>
-                                <button type="button" class="btn btn-warning" id="btnApprovalSave">Pending</button>
-                                <button class="btn btn-success" id="setujui" data-id_pengajuan_pemohon="<?=$id_pengajuan_pemohon?>"  data-id_monitoring="<?=$id_monitoring?>"><i class="fa fa-check"></i> Setujui</button>
+                                <!--<button type="button" class="btn btn-warning" id="btnApprovalSave">Pending</button>-->
+                                <button class="btn btn-success" id="setujui" data-id_pengajuan_pemohon="<?=$id_pengajuan_pemohon?>"  data-id_monitoring="<?=$id_monitoring?>"><i class="fa fa-check"></i> Cetak Kwitansi </button>
+                                <!--<button class="btn btn-success" id="test-cetak-kwitansi" data-id_pengajuan_pemohon="<?=$id_pengajuan_pemohon?>"  data-id_monitoring="<?=$id_monitoring?>"><i class="fa fa-check"></i> Test Cetak Kwitansi </button>-->
                             </div>
                         </div>
                     </div>
@@ -248,6 +270,8 @@ $(document).ready(function()
                 alert('Terjadi kesalahan saat menyimpan approval.');
             }
         });
+
+        cetak_kwitansi();
     });
 
     $("#nominal_umko_cair").click(function() {
@@ -262,10 +286,39 @@ $(document).ready(function()
         let jumlah = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         $(this).val(jumlah);
     });    
+
+    $("#view-data-pemohon-rincian").click(function(){
+        $("#data-pemohon-rincian").toggle('slow');
+    });
+
+    $('#test-cetak-kwitansi').on('click', function() {
+        cetak_kwitansi();
+    });
 });
 
+function cetak_kwitansi(){
+    
+    var id_monitoring = $(this).data('id_monitoring');
+    var id_pengajuan_pemohon = '<?=$id_pengajuan_pemohon?>';
+    var kasir_penerima = $('#kasir_penerima').val();
+    var kasir_keterangan = $('#kasir_keterangan').val();
+    var nominal_umko_cair = $('#nominal_umko_cair').val();
+    var telah_terima_dari = $('#telah_terima_dari').val();
+    var untuk_pembayaran = $('#untuk_pembayaran').val();
+    var yang_menyerahkan = $('#yang_menyerahkan').val();
 
-
+    post_to_url("<?=base_url('test_kwitansi/pengeluaran')?>", {             
+            id_monitoring: id_monitoring,
+            id_pengajuan_pemohon: id_pengajuan_pemohon,
+            telah_terima_dari: telah_terima_dari,
+            untuk_pembayaran: untuk_pembayaran,
+            nominal_umko_cair: nominal_umko_cair,
+            yang_menyerahkan: yang_menyerahkan,
+            kasir_penerima: kasir_penerima,
+            kasir_keterangan: kasir_keterangan    
+        }, 'post'
+    );
+}
 
 function getDataPageMonitoring(page){              
 	var keywords = $('#keywords').val();
@@ -286,6 +339,28 @@ function getDataPageMonitoring(page){
             $('.loading-overlay').fadeOut("slow");
 		}
 	});
+}
+
+function post_to_url(path, params, method) {
+	method = method || "post";
+
+	var form = document.createElement("form");
+	form.setAttribute("method", method);
+	form.setAttribute("action", path);
+
+	for(var key in params) {
+		if(params.hasOwnProperty(key)) {
+			var hiddenField = document.createElement("input");
+			hiddenField.setAttribute("type", "hidden");
+			hiddenField.setAttribute("name", key);
+			hiddenField.setAttribute("value", params[key]);
+
+			form.appendChild(hiddenField);
+			}
+	}
+
+	document.body.appendChild(form);
+	form.submit();
 }
 </script>
 
