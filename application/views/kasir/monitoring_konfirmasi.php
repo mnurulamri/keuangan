@@ -176,7 +176,7 @@ if (!$this->session->userdata('kode_bidang')) {
                     <div class="row" style="width:99%; margin:0 auto;">
 
                         <div class="col-sm-12 kotak">
-                            <div class="box-header with-border text-center" style="line-height:7px"><b>Proses Cetak Kwitansi</b></div>
+                            <div class="box-header with-border text-center" style="line-height:7px"><b>Proses Pengambilan Uang Muka Kas Operasional oleh PUM</b></div>
                             <br>
                             <div id="approvalForm" class="text-center">
                                 <form class="form-horizontal">
