@@ -5,234 +5,229 @@ if (!$this->session->userdata('kode_bidang')) {
 //echo '<pre>';print_r($pejabat);echo '</pre>';
 ?>
 
-<div><button id="view-data-pemohon-rincian" class="btn btn-primary btn-xs">Detail Data Pemohon dan Rincian</button></div>
-            <div id="data-pemohon-rincian" style="display:none;">                
-                <!--<div class="panel panel-default">-->
-                    <!--<div class="panel-body">-->
-                        <div class="boxx box-primary">                            
-                            <div class="box-header with-border text-center">
-                                <div class="panel-title"><b>Data Pemohon</b></div>
-                            </div>
-                            <div class="box-body">
-                                <!-- data pemohon -->
-                                 <table id="pemohon">                                    
-                                    <tr>
-                                        <td width="20%" class="label">Nomor Pengajuan</td>
-                                        <td>: </td>
-                                        <td width="30%"> <?= $preview_nomor ?></td>
-                                        <td width="20%" class="label">Penanggung Jawab</td>
-                                        <td>: </td>
-                                        <td width="30%"> <?= $pejabat[0]['nama'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="20%" class="label">Tanggal Pengajuan</td>
-                                        <td>: </td>
-                                        <td width="30%"> <?= dateTimeToTanggal($pejabat[0]['tgl_diajukan']) ?></td>
-                                        <td width="20%" class="label">NPM/NIP/NUP</td>
-                                        <td>: </td>
-                                        <td width="30%"> <?= $pejabat[0]['nip'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="label">PAF/Dept/Prog/Unit</td>
-                                        <td>: </td>
-                                        <td> <?= $nama_unit ?></td>
-                                        <td class="label">No Telepon</td>
-                                        <td>: </td>
-                                        <td> <?= $pejabat[0]['telp'] ?></td>
-                                    </tr>
-                                 </table>
-                            </div>
+<div>
+    <div class="row" style="width:99%; margin:0 auto;">
+
+        <div class="col-sm-12 kotak">
+            <div class="box-header with-border text-center" style="line-height:7px"><b class="text-center text-danger">Pengambilan Uang Muka Kas Operasional oleh PUM</b></div>
+            <br>
+            <div id="approvalForm" class="text-center">
+                
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="nominal_umko_cair" class="col-xs-4 text-right" style="color:#555" >Telah Terima Dari :</label>
+                        <div class="col-xs-8">
+                            <div id="telah_terima_dari" name="telah_terima_dari" class="text-left">PUM CASH CARD</div>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nominal_umko_cair" class="col-xs-4 text-right" style="color:#555">Nominal Cair :</label>
+                        <div class="col-xs-8 text-left">
+                            <input id="nominal_umko_cair" name="nominal_umko_cair" class="text-left" style="border:1px solid #ddd" value="<?=number_format($nominal_disetujui_umko)?>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nominal_umko_cair" class="col-xs-4 text-right" style="color:#555">Untuk Pembayaran :</label>
+                        <div class="col-xs-8">
+                            <div id="untuk_pembayaran" name="untuk_pembayaran" class="text-left"><?= $untuk_pembayaran ?></div>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="form-group">
+                        <label for="yang_menyerahkan" class="control-label col-xs-4" style="color:#555">Yang Menyerahkan :</label>
+                        <div class="col-xs-3">
+                            <div id="yang_menyerahkan" name="yang_menyerahkan" class="text-left"><?=$yang_menyerahkan?></div>
+                        </div>
+                    </div>
+                    -->
+                    <div class="form-group">
+                        <label for="kasir_penerima" class="col-xs-4 text-right" style="color:#555">Yang Menerima :</label>
+                        <div class="col-xs-8 text-left">
+                            <input id="kasir_penerima" name="kasir_penerima" class="text-left" style="border:1px solid #ddd" value="<?=$kasir_penerima?>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="kasir_keterangan" class="col-xs-4 text-right" style="color:#555">Catatan :</label>
+                        <div class="col-xs-8">
+                            <textarea class="form-control" id="kasir_keterangan" name="kasir_keterangan" rows="3"><?=$kasir_keterangan?></textarea>
+                        </div>
+                    </div> 
+                </form>
+                <!--<button type="button" class="btn btn-warning" id="btnApprovalSave">Pending</button>-->
+                <button class="btn btn-success" id="setujui" data-id_pengajuan_pemohon="<?=$id_pengajuan_pemohon?>"  data-id_monitoring="<?=$id_monitoring?>"><i class="fa fa-check"></i> Proses </button>
+                <!--<button class="btn btn-success" id="test-cetak-kwitansi" data-id_pengajuan_pemohon="<?=$id_pengajuan_pemohon?>"  data-id_monitoring="<?=$id_monitoring?>"><i class="fa fa-check"></i> Test Cetak Kwitansi </button>-->
+            </div>
+        </div>
+    </div>
 
-                        <hr>
-                        <!--<div class="box box-primary">
-                            <div class="box-header with-border text-center">
-                                <h3 class="box-title">Rincian Pembayaran</h3>
-                            </div>
-                            <div class="box-body" style="overflow:auto">-->
-                                <div class="row" style="width:99%; margin:0 auto;">
+    <button id="view-data-pemohon-rincian" class="btn btn-primary btn-xs">Detail Data Pemohon dan Rincian</button></div>
+    <div id="data-pemohon-rincian" style="display:none;">                
+        <!--<div class="panel panel-default">-->
+            <!--<div class="panel-body">-->
+                <div class="boxx box-primary">                            
+                    <div class="box-header with-border text-center">
+                        <div class="panel-title"><b>Data Pemohon</b></div>
+                    </div>
+                    <div class="box-body">
+                        <!-- data pemohon -->
+                            <table id="pemohon">                                    
+                            <tr>
+                                <td width="20%" class="label">Nomor Pengajuan</td>
+                                <td>: </td>
+                                <td width="30%"> <?= $preview_nomor ?></td>
+                                <td width="20%" class="label">Penanggung Jawab</td>
+                                <td>: </td>
+                                <td width="30%"> <?= $pejabat[0]['nama'] ?></td>
+                            </tr>
+                            <tr>
+                                <td width="20%" class="label">Tanggal Pengajuan</td>
+                                <td>: </td>
+                                <td width="30%"> <?= dateTimeToTanggal($pejabat[0]['tgl_diajukan']) ?></td>
+                                <td width="20%" class="label">NPM/NIP/NUP</td>
+                                <td>: </td>
+                                <td width="30%"> <?= $pejabat[0]['nip'] ?></td>
+                            </tr>
+                            <tr>
+                                <td class="label">PAF/Dept/Prog/Unit</td>
+                                <td>: </td>
+                                <td> <?= $nama_unit ?></td>
+                                <td class="label">No Telepon</td>
+                                <td>: </td>
+                                <td> <?= $pejabat[0]['telp'] ?></td>
+                            </tr>
+                            </table>
+                    </div>
+                </div>
 
-                                    <div class="col-sm-12 kotak">
-                                        
-                                      <div class="box-header with-border text-center" style="line-height:7px;"><b>Rincian Pembayaran</b></div>
-                                        <br>
-                                        <div class="row">
-                                            <div class="form-group">
-                                                <label for="uraian" class="col-sm-3 control-label text-right" style="color:#555">Untuk</label>
-                                                <div class="col-sm-9">
-                                                    <?=$untuk?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group">
-                                                <label for="untuk_nama" class="col-sm-3 control-label text-right" style="color:#555">Atas Nama</label>
-                                                <div class="col-sm-9">
-                                                    <?= $array_dpsj[0]['deskripsi_dpsj'] ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--
-                                        <div class="form-group">
-                                            <label for="untuk_nama">Untuk dan Atas Nama</label>
-                                            <input type="text" class="form-control" id="uraian" name="uraian" required>
-                                        </div>
-                                        -->
-                                        <input type="hidden" class="form-control" id="uraian" name="uraian">
+                <hr>
+                <!--<div class="box box-primary">
+                    <div class="box-header with-border text-center">
+                        <h3 class="box-title">Rincian Pembayaran</h3>
+                    </div>
+                    <div class="box-body" style="overflow:auto">-->
+                        <div class="row" style="width:99%; margin:0 auto;">
 
-                                        <div style="line-height:14x;">&nbsp;</div>
-
-                                        <input type="hidden" id="id" value="0" >
-                                        <input type="hidden" id="newId" value="0" >
-                                        <input type="hidden" id="kode_dpsj" value="<?=$array_dpsj[0]['kode_dpsj']?>">
-                                        <input type="hidden" id="kode_bidang" value="<?=$kode_bidang?>">
-
-                                        <!-- Di bagian Rincian Pembayaran -->
-                                        <div style="overflow:auto;">
-                                            <table class="tablex table-borderedx" id="tabel-rincian">
-                                                <thead>
-                                                    <tr style="color:#555">
-                                                        <th width="5%">No</th>
-                                                        <th width="25%" colspan="2">Nomor dan Nama Project Costing</th>
-                                                        <th width="25%" colspan="3">Nomor dan Nama Akun</th>
-                                                        <th width="15%">Jumlah (Rp)</th>
-                                                        <th width="15%">Jumlah Disetujui</th>
-                                                        <th width="20%">Keterangan</th>
-                                                        <th width="5%">Sisa Anggaran</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php
-                                                    $rowCount = 1;
-                                                    $newId = 1;
-                                                    
-                                                    $kode_dpsj = $array_dpsj[0]['kode_dpsj'];
-                                                    $nominal_pengajuan = 0;
-                                                    $nominal_disetujui = 0;
-
-                                                    foreach($rincian as $row){
-
-                                                        // Inisialisasi variabel untuk menghitung sisa anggaran  
-                                                        $kode_kegiatan = $row['kode_kegiatan'];
-                                                        $kode_akun = $row['kode_akun'];
-                                                        $kode_dana = $row['kode_dana'];
-
-                                                        // Ambil sisa anggaran dari database
-                                                        
-                                                        $sisa = 0;
-                                                        echo '
-                                                        <tr>
-                                                            <td id="'.$row['id'].'">'.$rowCount.'</td>
-                                                            <td class="kode-kegiatan" id="kode_kegiatan_'.$newId.'">'.$row['kode_kegiatan'].'</td>
-                                                            <td class="nama-kegiatan" data-id="'.$newId.'">'.$row['nama_kegiatan'].'</td>
-                                                            <td class="kode-akun" id="kode_akun_'.$newId.'">'.$row['kode_akun'].'</td>
-                                                            <td class="deskripsi-akun" id="akun_'.$newId.'" data-id="'.$newId.'">'.$row['deskripsi_akun'].'</td>
-                                                            <td class="kode-dana" id="dana_'.$newId.'">'.$row['kode_dana'].'</td>
-                                                            <td class="jumlah" id="jumlah_'.$newId.'">'.number_format($row['komitmen']).'</td>
-                                                            <td class="jumlah-disetujui" id="jumlah_disetujui_'.$newId.'">
-                                                                '.number_format($row['komitmen_disetujui']).'
-                                                            </td>                                                        
-                                                            <td class="keterangan">'.$row['keterangan'].'</td>
-                                                            <td class="sisa_anggaran" id="sisa_anggaran_'.$newId.'" data-sisa_anggaran="'.$sisa_anggaran[$kode_dpsj][$kode_kegiatan][$kode_akun][$kode_dana].'">'.$sisa_anggaran[$kode_dpsj][$kode_kegiatan][$kode_akun][$kode_dana].'</td>
-
-                                                        </tr>';
-                                                        $rowCount++;
-                                                        $newId++;    
-                                                        $nominal_pengajuan += $row['komitmen'];
-                                                        $nominal_disetujui += $row['komitmen_disetujui'];                                              
-                                                    }
-                                                    ?>
-                                                    <script>$("#newId").val(<?=$newId?>);</script>
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <td colspan="6" class="text-right"><b>Total: </b></td>
-                                                        <td class="total"><?=number_format($nominal_pengajuan)?></td>
-                                                        <td class="total-disetujui"><?=number_format($nominal_disetujui)?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="9" style="border: 1px solid #fff">             
-                                                            
-                                                        </td>
-                                                    </tr>
-                                                    <!--
-                                                    <tr>
-                                                        <td colspan="10" class="text-info" style="border: 1px solid #fff">
-                                                            <ul>
-                                                                <li><i>double klik pada kolom nama project costing, nama akun, jumlah dan keterangan untuk edit</i></li>
-                                                            </ul>
-                                                        </td>
-                                                    </tr>
-                                                    -->
-                                                </tfoot>
-                                            </table>
+                            <div class="col-sm-12 kotak">
+                                
+                                <div class="box-header with-border text-center" style="line-height:7px;"><b>Rincian Pembayaran</b></div>
+                                <br>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="uraian" class="col-sm-3 control-label text-right" style="color:#555">Untuk</label>
+                                        <div class="col-sm-9">
+                                            <?=$untuk?>
                                         </div>
                                     </div>
                                 </div>
-                            <!--</div>
-                        </div>-->
-            </div>
-                        <hr>
-                    <div class="row" style="width:99%; margin:0 auto;">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="untuk_nama" class="col-sm-3 control-label text-right" style="color:#555">Atas Nama</label>
+                                        <div class="col-sm-9">
+                                            <?= $array_dpsj[0]['deskripsi_dpsj'] ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--
+                                <div class="form-group">
+                                    <label for="untuk_nama">Untuk dan Atas Nama</label>
+                                    <input type="text" class="form-control" id="uraian" name="uraian" required>
+                                </div>
+                                -->
+                                <input type="hidden" class="form-control" id="uraian" name="uraian">
 
-                        <div class="col-sm-12 kotak">
-                            <div class="box-header with-border text-center" style="line-height:7px"><b>Proses Pengambilan Uang Muka Kas Operasional oleh PUM</b></div>
-                            <br>
-                            <div id="approvalForm" class="text-center">
-                                <form class="form-horizontal">
-                                    <!--
-                                    <div class="form-group">
-                                        <label for="tgl_umko_cair" class="control-label col-xs-4" style="color:#555">Tanggal UMKO Cair :</label>
-                                        <div class="col-xs-3">
-                                            <input class="form-control" id="tgl_umko_cair" name="tgl_umko_cair" size="10" value="???" />
-                                        </div>
-                                    </div>
-                                                -->
-                                    <div class="form-group">
-                                        <label for="nominal_umko_cair" class="control-label col-xs-4" style="color:#555">Telah Terima Dari :</label>
-                                        <div class="col-xs-3">
-                                            <input class="form-control" id="telah_terima_dari" name="telah_terima_dari" size="10" value="PUM CASH CARD" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="nominal_umko_cair" class="control-label col-xs-4" style="color:#555">Uang Sejumlah :</label>
-                                        <div class="col-xs-3">
-                                            <input class="form-control" id="nominal_umko_cair" name="nominal_umko_cair" size="10" value="<?=number_format($nominal_disetujui_umko)?>" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="nominal_umko_cair" class="control-label col-xs-4" style="color:#555">Untuk Pembayaran :</label>
-                                        <div class="col-xs-3">
-                                            <input class="form-control" id="untuk_pembayaran" name="untuk_pembayaran" size="10" value="<?= $untuk_pembayaran ?>, " />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="yang_menyerahkan" class="control-label col-xs-4" style="color:#555">Yang Menyerahkan :</label>
-                                        <div class="col-xs-3">
-                                            <input class="form-control" id="yang_menyerahkan" name="yang_menyerahkan" size="10" value="<?=$yang_menyerahkan?>" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="kasir_penerima" class="control-label col-xs-4" style="color:#555">Yang Menerima :</label>
-                                        <div class="col-xs-3">
-                                            <input class="form-control" id="kasir_penerima" name="kasir_penerima" size="10" value="<?=$kasir_penerima?>" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="kasir_keterangan" class="control-label col-xs-4" style="color:#555">Catatan :</label>
-                                        <div class="col-xs-8">
-                                            <textarea class="form-control" id="kasir_keterangan" name="kasir_keterangan" rows="3"><?=$kasir_keterangan?></textarea>
-                                        </div>
-                                    </div> 
-                                </form>
-                                <!--<button type="button" class="btn btn-warning" id="btnApprovalSave">Pending</button>-->
-                                <button class="btn btn-success" id="setujui" data-id_pengajuan_pemohon="<?=$id_pengajuan_pemohon?>"  data-id_monitoring="<?=$id_monitoring?>"><i class="fa fa-check"></i> Cetak Kwitansi </button>
-                                <!--<button class="btn btn-success" id="test-cetak-kwitansi" data-id_pengajuan_pemohon="<?=$id_pengajuan_pemohon?>"  data-id_monitoring="<?=$id_monitoring?>"><i class="fa fa-check"></i> Test Cetak Kwitansi </button>-->
+                                <div style="line-height:14x;">&nbsp;</div>
+
+                                <input type="hidden" id="id" value="0" >
+                                <input type="hidden" id="newId" value="0" >
+                                <input type="hidden" id="kode_dpsj" value="<?=$array_dpsj[0]['kode_dpsj']?>">
+                                <input type="hidden" id="kode_bidang" value="<?=$kode_bidang?>">
+
+                                <!-- Di bagian Rincian Pembayaran -->
+                                <div style="overflow:auto;">
+                                    <table class="tablex table-borderedx" id="tabel-rincian">
+                                        <thead>
+                                            <tr style="color:#555">
+                                                <th width="5%">No</th>
+                                                <th width="25%" colspan="2">Nomor dan Nama Project Costing</th>
+                                                <th width="25%" colspan="3">Nomor dan Nama Akun</th>
+                                                <th width="15%">Jumlah (Rp)</th>
+                                                <th width="15%">Jumlah Disetujui</th>
+                                                <th width="20%">Keterangan</th>
+                                                <th width="5%">Sisa Anggaran</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $rowCount = 1;
+                                            $newId = 1;
+                                            
+                                            $kode_dpsj = $array_dpsj[0]['kode_dpsj'];
+                                            $nominal_pengajuan = 0;
+                                            $nominal_disetujui = 0;
+
+                                            foreach($rincian as $row){
+
+                                                // Inisialisasi variabel untuk menghitung sisa anggaran  
+                                                $kode_kegiatan = $row['kode_kegiatan'];
+                                                $kode_akun = $row['kode_akun'];
+                                                $kode_dana = $row['kode_dana'];
+
+                                                // Ambil sisa anggaran dari database
+                                                
+                                                $sisa = 0;
+                                                echo '
+                                                <tr>
+                                                    <td id="'.$row['id'].'">'.$rowCount.'</td>
+                                                    <td class="kode-kegiatan" id="kode_kegiatan_'.$newId.'">'.$row['kode_kegiatan'].'</td>
+                                                    <td class="nama-kegiatan" data-id="'.$newId.'">'.$row['nama_kegiatan'].'</td>
+                                                    <td class="kode-akun" id="kode_akun_'.$newId.'">'.$row['kode_akun'].'</td>
+                                                    <td class="deskripsi-akun" id="akun_'.$newId.'" data-id="'.$newId.'">'.$row['deskripsi_akun'].'</td>
+                                                    <td class="kode-dana" id="dana_'.$newId.'">'.$row['kode_dana'].'</td>
+                                                    <td class="jumlah" id="jumlah_'.$newId.'">'.number_format($row['komitmen']).'</td>
+                                                    <td class="jumlah-disetujui" id="jumlah_disetujui_'.$newId.'">
+                                                        '.number_format($row['komitmen_disetujui']).'
+                                                    </td>                                                        
+                                                    <td class="keterangan">'.$row['keterangan'].'</td>
+                                                    <td class="sisa_anggaran" id="sisa_anggaran_'.$newId.'" data-sisa_anggaran="'.$sisa_anggaran[$kode_dpsj][$kode_kegiatan][$kode_akun][$kode_dana].'">'.$sisa_anggaran[$kode_dpsj][$kode_kegiatan][$kode_akun][$kode_dana].'</td>
+
+                                                </tr>';
+                                                $rowCount++;
+                                                $newId++;    
+                                                $nominal_pengajuan += $row['komitmen'];
+                                                $nominal_disetujui += $row['komitmen_disetujui'];                                              
+                                            }
+                                            ?>
+                                            <script>$("#newId").val(<?=$newId?>);</script>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="6" class="text-right"><b>Total: </b></td>
+                                                <td class="total"><?=number_format($nominal_pengajuan)?></td>
+                                                <td class="total-disetujui"><?=number_format($nominal_disetujui)?></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="9" style="border: 1px solid #fff">             
+                                                    
+                                                </td>
+                                            </tr>
+                                            <!--
+                                            <tr>
+                                                <td colspan="10" class="text-info" style="border: 1px solid #fff">
+                                                    <ul>
+                                                        <li><i>double klik pada kolom nama project costing, nama akun, jumlah dan keterangan untuk edit</i></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            -->
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                <!--</div>-->
-                
+                    <!--</div>
+                </div>-->
+    </div>
+</div>
 
 <script>
 $(document).ready(function()
@@ -271,7 +266,9 @@ $(document).ready(function()
             }
         });
 
-        cetak_kwitansi();
+        // pencatatan kendali dokumen
+        kendali_dokumen(flag_approve='Proses', id_monitoring);
+        //cetak_kwitansi();
     });
 
     $("#nominal_umko_cair").click(function() {
@@ -295,6 +292,32 @@ $(document).ready(function()
         cetak_kwitansi();
     });
 });
+
+
+function kendali_dokumen(flag_approve, id_monitoring){
+    var kd_pengajuan = "<?= $preview_nomor ?>";
+    var kasir_keterangan = $('#kasir_keterangan').val();
+    var kode_status = 41;
+    //console.log("Simpan catatan untuk pengajuan: " + kd_pengajuan + " dengan keterangan: " + anggaran_keterangan+ ' dan kode_status: '+kode_status);
+    $.ajax({
+        url: '<?=base_url("Kendali_dokumen")?>',
+        type: 'POST',
+        data: {
+            id_monitoring: id_monitoring, 
+            kd_pengajuan: kd_pengajuan,
+            keterangan: kasir_keterangan,
+            kode_status: kode_status
+        },
+        //dataType: 'json',
+        success: function(res) {
+            alert('Catatan berhasil disimpan.');
+            console.log(res);
+        },
+        error: function() {
+            alert('Terjadi kesalahan saat menyimpan catatan.');
+        }
+    });
+}
 
 function cetak_kwitansi(){
     
