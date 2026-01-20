@@ -117,7 +117,7 @@ class Pengajuan_daftar extends CI_Controller {
         }
         $data['tanggal'] = $result['tanggal'];
         $data['untuk'] = $result['untuk'];
-        
+        $data['form'] = $result['form'];
         
         // ambil identitas pejabat
         $this->sdm_db = $this->load->database('sdm', TRUE);
