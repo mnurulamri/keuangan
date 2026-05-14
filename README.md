@@ -1,4 +1,4 @@
-# Aplikasi Pengelolaan Pengajuan Uang Muka (keuangan)
+# Sistem Informasi Keuanggan
 
 Deskripsi singkat
 
