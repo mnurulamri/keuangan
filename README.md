@@ -78,18 +78,6 @@ Contributor notes
 - Coding style mengikuti CodeIgniter 3.x konvensi controller/model/view.
 - Untuk menambahkan fitur baru, buat method di controller dan model, lalu buat view di `application/views/anggaran/`.
 
-Menjalankan test lokal
-
-- Tidak ada test otomatis di repository ini. Untuk pengujian fungsi, jalankan aplikasi di server lokal dan coba alur pengajuan.
-
-Troubleshooting umum
-
-- 404 setelah login: periksa `base_url` dan file `index.php` front controller. Pastikan `mod_rewrite` aktif jika menggunakan clean URLs.
-- Koneksi database gagal: periksa kredensial di `application/config/database.php` dan pastikan server MySQL berjalan.
-
-Lisensi
-
-- Tidak ada file lisensi di repo. Jika Anda ingin menambahkan lisensi (MIT/Apache/GPL), beri tahu saya dan saya buatkan file `LICENSE`.
 
 Follow-up yang disarankan
 
