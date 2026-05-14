@@ -1,4 +1,4 @@
-# Sistem Informasi Keuanggan
+# Sistem Informasi Keuangan
 
 Deskripsi singkat
 
