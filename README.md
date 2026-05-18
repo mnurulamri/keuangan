@@ -1,4 +1,4 @@
- Sistem Informasi Keuangan FISIP UI
+# Sistem Informasi Keuangan FISIP UI
 Sistem Informasi Keuangan FISIP UI adalah aplikasi berbasis web yang dikembangkan untuk mengotomatisasi proses pengajuan dana, pengelolaan anggaran, serta pelaporan pertanggungjawaban (SPJ) di lingkungan Fakultas Ilmu Sosial dan Ilmu Politik Universitas Indonesia.
 🚀 Latar Belakang
 Sebelum sistem ini dikembangkan, proses keuangan dilakukan secara manual menggunakan spreadsheet terpisah, yang menimbulkan beberapa permasalahan:
