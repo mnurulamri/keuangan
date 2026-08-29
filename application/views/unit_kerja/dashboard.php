@@ -1,0 +1,97 @@
+<?php
+// buat array warna untuk box pada class="small-box bg-..."
+$box_colors = array(
+    'bg-aqua',
+    'bg-maroon',
+    'bg-blue',
+    'bg-purple',
+    'bg-teal',
+    'bg-green',
+    'bg-orange',
+    'bg-lime',
+    'bg-fuchsia',
+    'bg-navy',
+    'bg-olive'
+);
+
+//buat array untuk menyimpan jumlah per kode_status dari monitoring_list
+$jumlah_per_status = array();
+foreach ($monitoring_list as $monitoring) {
+    $jumlah_per_status[$monitoring['kode_status']] = $monitoring['jumlah'];
+}
+
+// jika tidak ada nilai $monitoring['jumlah'], set ke 0
+foreach ($status_list as $status) {
+    if (!isset($jumlah_per_status[$status['kode_status']])) {
+        $jumlah_per_status[$status['kode_status']] = 0;
+    }
+}
+?>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <?php //echo '<pre>';print_r($this->session->userdata['logged_anggaran']); echo '<pre>'; ?>
+        <!-- Content Header -->
+        <section class="content-header">
+            <h1>Dashboard PUM</h1>
+			<?php //echo '<pre>';print_r($jumlah_per_status); echo '<pre>'; ?>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+
+                <?php
+                // Loop melalui data status_list untuk membuat info box
+                foreach ($status_list as $index => $status) {
+                    // Pilih warna box berdasarkan index, gunakan modulo untuk mengulang warna jika lebih banyak status
+                    $box_color = $box_colors[$index % count($box_colors)];
+                    
+					if($status['kode_status']=='41'){
+						$detail_link = base_url('realisasi');
+					} else if($status['kode_status']=='5' || $status['kode_status']=='12' || $status['kode_status']=='14' || $status['kode_status']=='22' || $status['kode_status']=='32' || $status['kode_status']=='33' || $status['kode_status']=='42' || $status['kode_status']=='43' || $status['kode_status']=='52' || $status['kode_status']=='62' || $status['kode_status']=='63' || $status['kode_status']=='64'){
+						$detail_link = base_url('pengajuan_ajax/?kode_status=Diretur');
+					} else if($status['kode_status']=='1' || $status['kode_status']=='10'){
+						$detail_link = base_url('pengajuan_ajax/?kode_status=1');
+					} else {
+						$detail_link = base_url('pengajuan_ajax/?kode_status=' . $status['kode_status']);
+					}
+                    ?>
+                    <!-- Info Box: <?php echo $status['nama_status']; ?> -->
+                    <div class="col-lg-3 col-xs-6">
+                        <div class="small-box <?php echo $box_color; ?>">
+                            <div class="inner">
+                                <h3><?php echo $jumlah_per_status[$status['kode_status']]; ?></h3>
+                                <p><?php echo $status['nama_status']; ?></p>
+                                <?php
+								$kode_status = (int) $status['kode_status'];
+								$jumlah = (int) $jumlah_per_status[$status['kode_status']];
+								if($kode_status==12 and $jumlah>0){
+									echo '<marquee behavior="" direction="">untuk segera ditindaklanjuti</marquee>';
+								}
+                                // jika status == 0 atau status = 41 maka tampilkan marque
+                                if(((int) $status['kode_status'] == 0 and (int) $jumlah_per_status[$status['kode_status']] > 0) || (int) $status['kode_status'] == 41 and (int) $jumlah_per_status[$status['kode_status']] > 0 || (int) $status['kode_status'] == 12 and (int) $jumlah_per_status[$status['kode_status']] > 0){
+								//if(($status['kode_status'] == 0 and $jumlah_per_status[$status['kode_status'] > 0])|| (int) $status['kode_status'] == 41 and (int) $jumlah_per_status[$status['kode_status'] > 0]){
+                                ?>
+                                <marquee behavior="" direction="">untuk segera ditindaklanjuti</marquee>
+                                <?php } else {
+                                    echo '<marquee behavior="" direction="">&nbsp;</marquee>';
+                                } ?>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-info-circle"></i>
+                            </div>
+                            <a href="<?php echo $detail_link; ?>" class="small-box-footer">Lihat Detail <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                <?php } ?>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs"></div>
+        <strong>Unit Kerja &copy; 2024</strong>
+    </footer>
+</div>
+<!-- ./wrapper -->

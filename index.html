@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Keuangan FISIP UI</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="assets/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header/Navbar -->
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="images/logo-fisip.png" alt="Logo FISIP UI">
+                    <div class="logo-text">
+                        <h1>UNIT KEUANGAN</h1>
+                        <p>Fakultas Ilmu Sosial dan Ilmu Politik</p>
+                        <p>Universitas Indonesia</p>
+                    </div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#beranda">Beranda</a></li>
+                    <!--<li><a href="#layanan">Layanan</a></li>-->
+                    <li><a href="#alur">Alur Proses</a></li>
+                    <!--<li><a href="#dokumen">Dokumen</a></li>
+                    <li><a href="#kontak">Kontak</a></li>-->
+                    <li><button class="btn-login">Login</button><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button></li>
+                </ul>
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="beranda">
+        <div class="container">
+            <div class="hero-content">
+                <h1>UNIT KEUANGAN</h1>
+                <h2>Fakultas Ilmu Sosial dan Ilmu Politik</h2>
+                <p>Memberikan pelayanan terbaik dalam pengelolaan keuangan fakultas untuk mendukung kegiatan akademik dan non-akademik</p>
+                <div class="hero-buttons">
+                    <a href="#layanan" class="btn-primary">Lihat Layanan</a>
+                    <a href="#alur" class="btn-secondary">Alur Proses</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="images/icon-payment.png" alt="Ilustrasi Pembayaran">
+            </div>
+        </div>
+    </section>
+
+    <!-- Layanan Section
+    <section class="layanan" id="layanan">
+        <div class="container">
+            <h2 class="section-title">LAYANAN KAMI</h2>
+            <div class="layanan-grid">
+                <div class="layanan-card">
+                    <div class="icon-box">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <h3>Pengajuan Anggaran</h3>
+                    <p>Pelayanan pengajuan dana untuk kegiatan akademik dan non-akademik di lingkungan FISIP UI</p>
+                </div>
+                <div class="layanan-card">
+                    <div class="icon-box">
+                        <i class="fas fa-money-check-alt"></i>
+                    </div>
+                    <h3>Pencairan Dana</h3>
+                    <p>Proses pencairan dana untuk berbagai kebutuhan operasional fakultas dan departemen</p>
+                </div>
+                <div class="layanan-card">
+                    <div class="icon-box">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                    <h3>Pertanggungjawaban Keuangan</h3>
+                    <p>Penyelesaian pertanggungjawaban penggunaan dana kegiatan</p>
+                </div>
+                
+                <div class="layanan-card">
+                    <div class="icon-box">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <h3>Beasiswa & Bantuan</h3>
+                    <p>Pengelolaan dana beasiswa dan bantuan pendidikan untuk mahasiswa</p>
+                </div>
+            
+            </div>
+        </div>
+    </section>
+     -->
+    <!-- Alur Proses Section -->
+    <section class="alur" id="alur">
+        <div class="container">
+            <h2 class="section-title">ALUR PROSES KEUANGAN</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>1. Pengajuan</h3>
+                        <p>Pengisian formulir pengajuan anggaran oleh unit kerja</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>2. Verifikasi</h3>
+                        <p>Pemeriksaan kelengkapan dokumen oleh tim keuangan</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>3. Persetujuan</h3>
+                        <p>Persetujuan oleh Dekan atau pejabat yang berwenang</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>4. Pencairan</h3>
+                        <p>Proses pencairan dana melalui mekanisme yang berlaku</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>5. Pertanggungjawaban</h3>
+                        <p>Pelaporan penggunaan dana dengan bukti-bukti yang valid</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dokumen Section
+    <section class="dokumen" id="dokumen">
+        <div class="container">
+            <h2 class="section-title">DOKUMEN DAN FORMULIR</h2>
+            <div class="dokumen-grid">
+                <div class="dokumen-card">
+                    <i class="fas fa-file-pdf"></i>
+                    <h3>Formulir Pengajuan Anggaran</h3>
+                    <a href="#" class="btn-download">Download</a>
+                </div>
+                <div class="dokumen-card">
+                    <i class="fas fa-file-pdf"></i>
+                    <h3>Panduan SPJ Keuangan</h3>
+                    <a href="#" class="btn-download">Download</a>
+                </div>
+                <div class="dokumen-card">
+                    <i class="fas fa-file-pdf"></i>
+                    <h3>Template LPJ Kegiatan</h3>
+                    <a href="#" class="btn-download">Download</a>
+                </div>
+                <div class="dokumen-card">
+                    <i class="fas fa-file-pdf"></i>
+                    <h3>Peraturan Keuangan FISIP</h3>
+                    <a href="#" class="btn-download">Download</a>
+                </div>
+            </div>
+        </div>
+    </section>
+     -->
+    <!-- Kontak Section
+    <section class="kontak" id="kontak">
+        <div class="container">
+            <h2 class="section-title">HUBUNGI KAMI</h2>
+            <div class="kontak-content">
+                <div class="kontak-info">
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>Gedung A FISIP UI Lt.1, Kampus UI Depok 16424</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <p>(021) 7863508</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <p>keuangan@fisip.ui.ac.id</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <p>Senin-Jumat: 08.00-16.00 WIB</p>
+                    </div>
+                </div>
+                <div class="kontak-form">
+                    <form>
+                        <input type="text" placeholder="Nama Anda" required>
+                        <input type="email" placeholder="Email Anda" required>
+                        <input type="text" placeholder="Subjek" required>
+                        <textarea placeholder="Pesan Anda" required></textarea>
+                        <button type="submit" class="btn-primary">Kirim Pesan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+     -->
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="logo">
+                        <img src="images/logo-fisip.png" alt="Logo FISIP UI">
+                        <div class="logo-text">
+                            <h3>UNIT KEUANGAN FISIP UI</h3>
+                            <p>Melayani dengan Integritas dan Profesionalisme</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h3>Tautan Cepat</h3>
+                    <ul>
+                        <li><a href="#beranda">Beranda</a></li>
+                        <li><a href="#layanan">Layanan</a></li>
+                        <li><a href="#alur">Alur Proses</a></li>
+                        <li><a href="#dokumen">Dokumen</a></li>
+                        <li><a href="#kontak">Kontak</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Media Sosial</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Unit Keuangan FISIP UI. Hak Cipta Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+<div class="login-modal" id="loginModal" style="display: none;">
+    <div class="login-container">
+        <div class="login-close">
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="login-left">
+            <img src="images/login-illustration.png" alt="Login Illustration">
+            <h3>Selamat Datang</h3>
+            <p>Sistem Informasi Keuangan FISIP UI</p>
+        </div>
+        <div class="login-right">
+            <div class="login-logo">
+                <img src="images/logo-fisip.png" alt="Logo FISIP UI">
+                <h2>LOGIN</h2>
+                <p>Masukkan kredensial Anda untuk mengakses sistem</p>
+            </div>
+            <form class="login-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <input type="text" id="username" placeholder="Masukkan username Anda" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <input type="password" id="password" placeholder="Masukkan password Anda" required>
+                        <div class="password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Ingat saya</label>
+                    </div>
+                    <a href="#" class="forgot-password">Lupa password?</a>
+                </div>
+                <button type="submit" class="login-btn">MASUK</button>
+                <div class="login-divider">
+                    <span>ATAU</span>
+                </div>
+                <button type="button" class="sso-btn">
+                    <i class="fas fa-id-card"></i> Login dengan SSO UI
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+        
+    <div class="login-container">
+        <div class="login-close">
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="login-left">
+            <img src="images/login-illustration.png" alt="Login Illustration">
+            <h3>Selamat Datang</h3>
+            <p>Sistem Informasi Keuangan FISIP UI</p>
+        </div>
+        <div class="login-right">
+            <div class="login-logo">
+                <img src="images/logo-fisip.png" alt="Logo FISIP UI">
+                <h2>LOGIN</h2>
+                <p>Masukkan kredensial Anda untuk mengakses sistem</p>
+            </div>
+            <form class="login-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <input type="text" id="username" placeholder="Masukkan username Anda" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <input type="password" id="password" placeholder="Masukkan password Anda" required>
+                        <div class="password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Ingat saya</label>
+                    </div>
+                    <a href="#" class="forgot-password">Lupa password?</a>
+                </div>
+                <button type="submit" class="login-btn">MASUK</button>
+                <div class="login-divider">
+                    <span>ATAU</span>
+                </div>
+                <button type="button" class="sso-btn">
+                    <i class="fas fa-id-card"></i> Login dengan SSO UI
+                </button>
+            </form>
+        </div>
+    </div>
+    </div>
+
+  </div>
+</div>
+
+</html>
+
+<!-- jQuery 2.2.3 -->
+<script src="assets/AdminLTE/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="assets/AdminLTE/bootstrap/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="assets/AdminLTE/dist/js/app.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    // Toggle login modal
+    $('.btn-login').click(function() {
+        $('#loginModalx').fadeIn();
+        //alert("test")
+    });
+
+    $('.login-close, .login-modal').click(function() {
+        $('#loginModal').fadeOut();
+    });
+
+    // Prevent closing modal when clicking inside
+    $('.login-container').click(function(event) {
+        event.stopPropagation();
+    });
+
+    // Toggle password visibility
+    $('.password-toggle').click(function() {
+        const passwordInput = $('#password');
+        const type = passwordInput.attr('type') === 'password' ? 'text' : 'password';
+        passwordInput.attr('type', type);
+        $(this).find('i').toggleClass('fa-eye fa-eye-slash');
+    });
+});
+</script>

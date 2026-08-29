@@ -1,0 +1,551 @@
+<?php
+if (!$this->session->userdata('kode_bidang')) {
+    //redirect('auth/unit_kerja');
+}
+//echo '<pre>';print_r($rincian);echo '</pre>';exit();
+$catatan = 'Realisasi UMKO: Rp. '.$realisasi.' Sisa UMKO: Rp. '.$sisa;
+?>
+
+<div>
+    <div class="row" style="width:99%; margin:0 auto;">
+
+        <div class="col-sm-12 kotak">
+            <div class="box-header with-border text-center" style="line-height:7px"><b class="text-center text-danger">Pengembalian Uang Muka Kas Operasional dari PUM</b></div>
+            <br>
+            <div id="approvalForm" class="text-center">
+                
+                <form class="form-horizontal">
+                                
+                    <div class="form-group">
+                        <label for="nominal_umko_cair" class="col-xs-4 text-right" style="color:#555" >Tanggal :</label>
+                        <div class="col-xs-4">
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control pull-right" id="kasir_tanggal" name="kasir_tanggal">
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-clock-o"></i>
+                                </div>
+                                <input type="text" class="form-control timepicker" id="kasir_waktu" name="kasir_waktu" disabled >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nominal_umko_cair" class="col-xs-4 text-right" style="color:#555" >Telah Terima Dari :</label>
+                        <div class="col-xs-8 text-left">
+                            <input id="terima_dari" name="terima_dari" class="form-control text-left" style="border:1px solid #ddd" value="<?=$pum?>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nominal_umko_cair" class="col-xs-4 text-right" style="color:#555">Nominal :</label>
+                        <div class="col-xs-8 text-left">
+                            <table class="styled-table text-center" style="margin-top:-5px">
+                                <tr class="text-info">
+                                    <th>Komitmen</th>
+                                    <th>Realisasi</th>
+                                    <th>Sisa</th>
+                                </tr>
+                                <tr>
+                                    <td><?=$nominal_pengajuan?></td>
+                                    <td><?=$realisasi?></td>
+                                    <td><?=$sisa?></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nominal_umko_cair" class="col-xs-4 text-right" style="color:#555">Untuk Pembayaran :</label>
+                        <div class="col-xs-8">
+                            <div id="untuk_pembayaran" name="untuk_pembayaran" class="text-left"><?= $untuk_pembayaran ?></div>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="form-group">
+                        <label for="yang_menyerahkan" class="control-label col-xs-4" style="color:#555">Yang Menyerahkan :</label>
+                        <div class="col-xs-3">
+                            <div id="yang_menyerahkan" name="yang_menyerahkan" class="text-left"><?=$yang_menyerahkan?></div>
+                        </div>
+                    </div>
+                    -->
+                    <div class="form-group">
+                        <label for="kasir_penerima" class="col-xs-4 text-right" style="color:#555">Yang Menerima :</label>
+                        <div class="col-xs-8 text-left">
+                            <input id="kasir_penerima" name="kasir_penerima" class="form-control text-left" style="border:1px solid #ddd" value="PUM CASH CARD">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="kasir_keterangan" class="col-xs-4 text-right" style="color:#555">Catatan :</label>
+                        <div class="col-xs-8">
+                            <textarea class="form-control" id="kasir_keterangan" name="kasir_keterangan" rows="3"><?=$catatan?></textarea>
+                        </div>
+                    </div> 
+                </form>
+                <!--<button type="button" class="btn btn-warning" id="btnApprovalSave">Pending</button>-->
+                <button class="btn btn-success" id="setujuiTerimaSPJ" data-id_pengajuan_pemohon="<?=$id_pengajuan_pemohon?>"  data-id_monitoring="<?=$id_monitoring?>"><i class="fa fa-check"></i> Disetujui </button>
+                <button class="btn btn-warning" id="pending" data-id_pengajuan_pemohon="<?=$id_pengajuan_pemohon?>"  data-id_monitoring="<?=$id_monitoring?>"><i class="fa fa-undo"></i> Dikembalikan </button>
+                <button class="btn btn-danger" id="batal" data-id_pengajuan_pemohon="<?=$id_pengajuan_pemohon?>"  data-id_monitoring="<?=$id_monitoring?>"><i class="fa fa-minus-circle"></i> Dibatalkan </button>
+            </div>
+        </div>
+    </div>
+
+    <button id="view-data-pemohon-rincian" class="btn btn-primary btn-xs">Detail Data Pemohon dan Rincian</button></div>
+    <div id="data-pemohon-rincian" style="display:none;">                
+        <!--<div class="panel panel-default">-->
+            <!--<div class="panel-body">-->
+                <div class="boxx box-primary">                            
+                    <div class="box-header with-border text-center">
+                        <div class="panel-title"><b>Data Pemohon</b></div>
+                    </div>
+                    <div class="box-body">
+                        <!-- data pemohon -->
+                            <table id="pemohon">                                    
+                            <tr>
+                                <td width="20%" class="label">Nomor Pengajuan</td>
+                                <td>: </td>
+                                <td width="30%"> <?= $preview_nomor ?></td>
+                                <td width="20%" class="label">Penanggung Jawab</td>
+                                <td>: </td>
+                                <td width="30%"> <?= $pejabat[0]['nama'] ?></td>
+                            </tr>
+                            <tr>
+                                <td width="20%" class="label">Tanggal Pengajuan</td>
+                                <td>: </td>
+                                <td width="30%"> <?= dateTimeToTanggal($tanggal) ?></td>
+                                <td width="20%" class="label">NPM/NIP/NUP</td>
+                                <td>: </td>
+                                <td width="30%"> <?= $pejabat[0]['nip'] ?></td>
+                            </tr>
+                            <tr>
+                                <td class="label">PAF/Dept/Prog/Unit</td>
+                                <td>: </td>
+                                <td> <?= $nama_unit ?></td>
+                                <td class="label">No Telepon</td>
+                                <td>: </td>
+                                <td> <?= $pejabat[0]['telp'] ?></td>
+                            </tr>
+                            </table>
+                    </div>
+                </div>
+
+                <hr>
+                <!--<div class="box box-primary">
+                    <div class="box-header with-border text-center">
+                        <h3 class="box-title">Rincian Pembayaran</h3>
+                    </div>
+                    <div class="box-body" style="overflow:auto">-->
+                        <div class="row" style="width:99%; margin:0 auto;">
+
+                            <div class="col-sm-12 kotak">
+                                
+                                <div class="box-header with-border text-center" style="line-height:7px;"><b>Rincian Pembayaran</b></div>
+                                <br>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="uraian" class="col-sm-3 control-label text-right" style="color:#555">Untuk</label>
+                                        <div class="col-sm-9">
+                                            <?=$untuk?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="untuk_nama" class="col-sm-3 control-label text-right" style="color:#555">Atas Nama</label>
+                                        <div class="col-sm-9">
+                                            <?= $deskripsi_dpsj ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--
+                                <div class="form-group">
+                                    <label for="untuk_nama">Untuk dan Atas Nama</label>
+                                    <input type="text" class="form-control" id="uraian" name="uraian" required>
+                                </div>
+                                -->
+                                <input type="hidden" class="form-control" id="uraian" name="uraian">
+
+                                <div style="line-height:14x;">&nbsp;</div>
+
+                                <input type="hidden" id="id" value="0" >
+                                <input type="hidden" id="newId" value="0" >
+                                <input type="hidden" id="kode_dpsj" value="<?=$array_dpsj[0]['kode_dpsj']?>">
+                                <input type="hidden" id="kode_bidang" value="<?=$kode_bidang?>">
+
+                                <!-- Di bagian Rincian Pembayaran -->
+                                <div style="overflow:auto;">
+                                    <table class="tablex table-borderedx" id="tabel-rincian">
+                                        <thead>
+                                            <tr style="color:#555">
+                                                <th width="5%">No</th>
+                                                <th width="25%" colspan="2">Nomor dan Nama Project Costing</th>
+                                                <th width="25%" colspan="3">Nomor dan Nama Akun</th>
+                                                <th width="15%">Jumlah (Rp)</th>
+                                                <th width="15%">Jumlah Disetujui</th>
+                                                <th width="20%">Keterangan</th>
+                                                <th width="5%">Sisa Anggaran</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $rowCount = 1;
+                                            $newId = 1;
+                                            
+                                            $kode_dpsj = $array_dpsj[0]['kode_dpsj'];
+                                            $nominal_pengajuan = 0;
+                                            $nominal_disetujui = 0;
+
+                                            foreach($rincian as $row){
+
+                                                // Inisialisasi variabel untuk menghitung sisa anggaran  
+                                                $kode_kegiatan = $row['kode_kegiatan'];
+                                                $kode_akun = $row['kode_akun'];
+                                                $kode_dana = $row['kode_dana'];
+
+                                                // Ambil sisa anggaran dari database
+                                                
+                                                $sisa = 0;
+                                                echo '
+                                                <tr>
+                                                    <td id="'.$row['id'].'">'.$rowCount.'</td>
+                                                    <td class="kode-kegiatan" id="kode_kegiatan_'.$newId.'">'.$row['kode_kegiatan'].'</td>
+                                                    <td class="nama-kegiatan" data-id="'.$newId.'">'.$row['nama_kegiatan'].'</td>
+                                                    <td class="kode-akun" id="kode_akun_'.$newId.'">'.$row['kode_akun'].'</td>
+                                                    <td class="deskripsi-akun" id="akun_'.$newId.'" data-id="'.$newId.'">'.$row['deskripsi_akun'].'</td>
+                                                    <td class="kode-dana" id="dana_'.$newId.'">'.$row['kode_dana'].'</td>
+                                                    <td class="jumlah text-right" id="jumlah_'.$newId.'">'.number_format($row['komitmen']).'</td>
+                                                    <td class="jumlah-disetujui text-right" id="jumlah_disetujui_'.$newId.'">
+                                                        '.number_format($row['komitmen_disetujui']).'
+                                                    </td>                                                        
+                                                    <td class="keterangan">'.$row['keterangan'].'</td>
+                                                    <td class="sisa_anggaran text-right" id="sisa_anggaran_'.$newId.'" data-sisa_anggaran="'.$sisa_anggaran[$kode_kegiatan][$kode_akun][$kode_dana].'">'.$sisa_anggaran[$kode_kegiatan][$kode_akun][$kode_dana].'</td>
+
+                                                </tr>';
+                                                $rowCount++;
+                                                $newId++;    
+                                                $nominal_pengajuan += $row['komitmen'];
+                                                $nominal_disetujui += $row['komitmen_disetujui'];                                              
+                                            }
+                                            ?>
+                                            <script>$("#newId").val(<?=$newId?>);</script>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="6" class="text-right"><b>Total: </b></td>
+                                                <td class="total"><?=number_format($nominal_pengajuan)?></td>
+                                                <td class="total-disetujui text-right"><?=number_format($nominal_disetujui)?></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="9" style="border: 1px solid #fff">             
+                                                    
+                                                </td>
+                                            </tr>
+                                            <!--
+                                            <tr>
+                                                <td colspan="10" class="text-info" style="border: 1px solid #fff">
+                                                    <ul>
+                                                        <li><i>double klik pada kolom nama project costing, nama akun, jumlah dan keterangan untuk edit</i></li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            -->
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    <!--</div>
+                </div>-->
+    </div>
+</div>
+
+<script>
+$(document).ready(function()
+{
+    $('#setujuiTerimaSPJ').on('click', function() {
+        var id_monitoring = $(this).data('id_monitoring');
+        var id_pengajuan_pemohon = '<?=$id_pengajuan_pemohon?>';
+        var kasir_penerima = $('#kasir_penerima').val();
+        var kasir_keterangan = $('#kasir_keterangan').val();
+        var page = $("temp_page").val(); // halaman saat ini, bisa diubah sesuai kebutuhan
+        var terima_dari = $('#terima_dari').val();
+        var kasir_tanggal = $('#kasir_tanggal').val();
+        var kasir_waktu = $('#kasir_waktu').val();
+
+        $.ajax({
+            url: '<?=base_url("kasir/monitoring/approvalTerimaSPJ")?>',
+            type: 'POST',
+            data: {
+                id_monitoring: id_monitoring,
+                id_pengajuan_pemohon: id_pengajuan_pemohon,
+                kasir_penerima: kasir_penerima,
+                kasir_keterangan: kasir_keterangan,
+                terima_dari: terima_dari,
+				kasir_tanggal:kasir_tanggal,
+				kasir_waktu:kasir_waktu
+            },
+            //dataType: 'json',
+            success: function(res) {
+                //getDataPageMonitoring(page); // refresh data
+				$("#modal-approval").modal('hide');
+				$("#status_"+id_monitoring).text("Menungggu Pemeriksaan Verifikator");
+				    $('#btn_terima_spj_'+id_monitoring).prop("disabled", true);
+                //location.href = "<?=base_url()?>kasir/monitoring";
+                //$("#data-approval").html(res);  // cek data
+                /*if(res.status == 'success') {
+                    alert('Approval berhasil disimpan.');
+                } else {
+                    alert('Gagal menyimpan approval.');
+                }*/
+                console.log(res);
+            },
+            error: function() {
+                alert('Terjadi kesalahan saat menyimpan approval.');
+            }
+        });
+
+        // pencatatan kendali dokumen
+        kendali_dokumen(flag_approve='Proses', id_monitoring, kasir_tanggal, kasir_waktu);
+        //cetak_kwitansi();
+    });
+
+    $('#pending').on('click', function() {       
+
+		if (!confirm("Apakah Anda yakin akan mengembalikan data pengajuan ini?")) {
+			return false;
+		} else {
+            var id_monitoring = $(this).data('id_monitoring');
+            var id_pengajuan_pemohon = '<?=$id_pengajuan_pemohon?>';
+            var kasir_keterangan = $('#kasir_keterangan').val();
+            var page = $("temp_page").val(); // halaman saat ini, bisa diubah sesuai kebutuhan
+            var kasir_tanggal = $('#kasir_tanggal').val();
+            var kasir_waktu = $('#kasir_waktu').val();
+
+            $.ajax({
+                url: '<?=base_url("kasir/monitoring/pending")?>',
+                type: 'POST',
+                data: {
+                    id_monitoring: id_monitoring,
+                    id_pengajuan_pemohon: id_pengajuan_pemohon,
+                    kasir_keterangan: kasir_keterangan,
+                    kasir_tanggal:kasir_tanggal,
+                    kasir_waktu:kasir_waktu
+                },
+                //dataType: 'json',
+                success: function(res) {
+                    //getDataPageMonitoring(page); // refresh data
+                    $("#modal-approval").modal('hide');
+				    $("#status_"+id_monitoring).text("Retur Pengisian SPJ");
+				    $('#btn_terima_spj_'+id_monitoring).prop("disabled", true);
+                    //location.href = "<?=base_url()?>kasir/kuitansi";
+                    console.log(res);
+                },
+                error: function() {
+                    alert('Terjadi kesalahan saat menyimpan approval.');
+                }
+            });
+
+            // pencatatan kendali dokumen
+            kendali_dokumen(flag_approve='Pending', id_monitoring, kasir_tanggal, kasir_waktu);
+        }
+    });
+
+    $('#batal').on('click', function() {       
+
+		if (!confirm("Apakah Anda yakin akan membatalkan data pengajuan ini?")) {
+			return false;
+		} else {
+            var id_monitoring = $(this).data('id_monitoring');
+            var id_pengajuan_pemohon = '<?=$id_pengajuan_pemohon?>';
+            var kasir_keterangan = $('#kasir_keterangan').val();
+            var page = $("temp_page").val(); // halaman saat ini, bisa diubah sesuai kebutuhan
+            var kasir_tanggal = $('#kasir_tanggal').val();
+            var kasir_waktu = $('#kasir_waktu').val();
+
+            $.ajax({
+                url: '<?=base_url("kasir/monitoring/batal")?>',
+                type: 'POST',
+                data: {
+                    id_monitoring: id_monitoring,
+                    id_pengajuan_pemohon: id_pengajuan_pemohon,
+                    kasir_keterangan: kasir_keterangan,
+                    kasir_tanggal:kasir_tanggal,
+                    kasir_waktu:kasir_waktu
+                },
+                //dataType: 'json',
+                success: function(res) {
+                    //getDataPageMonitoring(page); // refresh data
+                    $("#modal-approval").modal('hide');
+				    $("#status_"+id_monitoring).text("Dibatalkan Kasir");
+				    $('#btn_terima_spj_'+id_monitoring).prop("disabled", true);
+                    //location.href = "<?=base_url()?>kasir/kuitansi";
+                    /*if(res.status == 'success') {
+                        alert('Approval berhasil disimpan.');
+                    } else {
+                        alert('Gagal menyimpan approval.');
+                    }*/
+                    console.log(res);
+                },
+                error: function() {
+                    alert('Terjadi kesalahan saat menyimpan approval.');
+                }
+            });
+
+            // pencatatan kendali dokumen
+            kendali_dokumen(flag_approve='Batal', id_monitoring, kasir_tanggal, kasir_waktu);
+        }
+    });
+
+    $("#nominal_umko_cair").click(function() {
+        $(this).select();
+        $("#id").val($(this).data('id'));
+    });
+
+    $(document).on("keyup", "#nominal_umko_cair", function(evt){        
+        // Cek apakah inputan hanya berisi angka
+        let keyCode = $(this).val();
+        let value = keyCode.replace(/[^\d.]/g, '');
+        let jumlah = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        $(this).val(jumlah);
+    });    
+
+    $("#view-data-pemohon-rincian").click(function(){
+        $("#data-pemohon-rincian").toggle('slow');
+    });
+
+    $('#test-cetak-kwitansi').on('click', function() {
+        cetak_kwitansi();
+    });
+
+    //Datepicker
+    $(document).on('focus', '#kasir_tanggal', function(){
+        $('#kasir_tanggal').datepicker({
+            autoclose: true,
+            language: "id",
+            format:"DD, d MM yyyy",
+            todayHighlight: true,
+            onSelect: function(selectedDate) {
+                // Tindakan setelah tanggal dipilih (jika diperlukan)
+                console.log("Tanggal dipilih: " + selectedDate);
+            }
+        });
+    });
+
+    // tampilkan menit dan detik secara realtime mengikuti waktu client
+    setInterval(function() {
+        var currentTime = new Date();
+        var hours = String(currentTime.getHours()).padStart(2, '0');
+        var minutes = String(currentTime.getMinutes()).padStart(2, '0');
+        var seconds = String(currentTime.getSeconds()).padStart(2, '0');
+        var formattedTime = hours + ':' + minutes + ':' + seconds;
+        document.getElementById('kasir_waktu').value = formattedTime;
+    }, 1000);
+
+    // tampilkan tanggal saat dokumen dibuka dalam format bahasa Indonesia dengan format "Hari, DD Bulan YYYY"
+    $("#kasir_tanggal").val(function(){
+        var months = [
+            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+            'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+        ];
+        var days = [
+            'Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'
+        ];
+        var currentDate = new Date();
+        var dayName = days[currentDate.getDay()];
+        var day = String(currentDate.getDate()).padStart(2, '0');
+        var monthName = months[currentDate.getMonth()];
+        var year = currentDate.getFullYear();
+        var formattedDate = dayName + ', ' + day + ' ' + monthName + ' ' + year;
+        return formattedDate;
+    });
+});
+
+
+function kendali_dokumen(flag_approve, id_monitoring, kasir_tanggal, kasir_waktu){
+    var kd_pengajuan = "<?= $preview_nomor ?>";
+    var kasir_keterangan = $('#kasir_keterangan').val();
+    
+    // jika flag_approve adalah 'Proses', maka kode_status adalah '41' untuk proses kasir
+    // jika flag_approve adalah 'Pending', maka kode_status adalah '42' untuk pending kasir
+    // jika flag_approve adalah 'Batal', maka kode_status adalah '43' untuk batal kasir
+    var kode_status = '';
+    if(flag_approve == 'Proses'){
+        kode_status = '51';
+    } else if(flag_approve == 'Pending'){
+        kode_status = '42';
+    } else if(flag_approve == 'Batal'){
+        kode_status = '43';
+    }
+    //console.log("Simpan catatan untuk pengajuan: " + kd_pengajuan + " dengan keterangan: " + anggaran_keterangan+ ' dan kode_status: '+kode_status);
+    $.ajax({
+        url: '<?=base_url("Kendali_dokumen")?>',
+        type: 'POST',
+        data: {
+            id_monitoring: id_monitoring, 
+            kd_pengajuan: kd_pengajuan,
+            keterangan: kasir_keterangan,
+            kode_status: kode_status,
+            tanggal: kasir_tanggal,
+            waktu: kasir_waktu
+        },
+        //dataType: 'json',
+        success: function(res) {
+            alert('Catatan berhasil disimpan.');
+            console.log(res);
+        },
+        error: function() {
+            alert('Terjadi kesalahan saat menyimpan catatan.');
+        }
+    });
+}
+
+function getDataPageMonitoring(page){              
+	var keywords = $('#keywords').val();
+	var sortBy = $('#sortBy').val();
+	var string_path = window.location.pathname;
+	var last_string_path = string_path.slice(-1);
+	if(last_string_path == '/'){
+		$url = 'data/'+page;
+	} else {
+		$url = 'monitoring_ajax/data/'+page;
+	}
+	$.ajax({
+		method: "POST",
+		url: $url,
+		data: { page:page, keywords:keywords, sortBy:sortBy },
+		success: function(data){
+			$('#postList').html(data);
+            $('.loading-overlay').fadeOut("slow");
+		}
+	});
+}
+
+function post_to_url(path, params, method) {
+	method = method || "post";
+
+	var form = document.createElement("form");
+	form.setAttribute("method", method);
+	form.setAttribute("action", path);
+
+	for(var key in params) {
+		if(params.hasOwnProperty(key)) {
+			var hiddenField = document.createElement("input");
+			hiddenField.setAttribute("type", "hidden");
+			hiddenField.setAttribute("name", key);
+			hiddenField.setAttribute("value", params[key]);
+
+			form.appendChild(hiddenField);
+			}
+	}
+
+	document.body.appendChild(form);
+	form.submit();
+}
+</script>
+
+<?php 
+include (APPPATH . 'views/template/css/style_form_konfirmasi.php'); 
+?>

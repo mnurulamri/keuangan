@@ -1,0 +1,71 @@
+# =======================================================================
+# CODEIGNITER 3 .GITIGNORE STANDARD
+# =======================================================================
+
+# --- Core & System ---
+# Jangan upload system bawaan jika Anda menggunakan Composer (opsional)
+# system/
+
+# --- Konfigurasi Sensitif ---
+# Mengabaikan config database agar password hosting/lokal tidak bocor
+application/config/database.php
+application/config/development/database.php
+application/config/production/database.php
+
+# --- Log & Error Tracking ---
+# Mengabaikan semua file log error, tetapi mempertahankan foldernya
+application/logs/log-*.php
+!application/logs/index.html
+
+# --- Cache & Sessions ---
+# Mengabaikan semua file cache dan session (termasuk ci_sessions / sess_*)
+application/cache/*
+!application/cache/index.html
+application/cache/ci_session*
+application/cache/sess_*
+
+# Jika Anda membuat folder khusus untuk session di dalam application
+application/sessions/*
+!application/sessions/index.html
+
+# --- Uploads & User Files ---
+# Mengabaikan file yang diupload user (jika Anda membuat folder 'uploads')
+uploads/*
+!uploads/index.html
+
+# --- Composer & Vendor ---
+# Mengabaikan library pihak ketiga jika dikelola lewat Composer
+vendor/
+composer.lock
+
+# --- Environment & OS Files ---
+.env
+.htaccess (jika berbeda di local dan production)
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+
+*/config/development
+*/logs/log-*.php
+!*/logs/index.html
+*/cache/*
+!system/cache/*
+!*/cache/index.html
+!*/cache/.htaccess
+
+user_guide_src/build/*
+user_guide_src/cilexer/build/*
+user_guide_src/cilexer/dist/*
+user_guide_src/cilexer/pycilexer.egg-info/*
+
+#codeigniter 3
+application/logs/*
+!application/logs/index.html
+!application/logs/.htaccess
+/vendor/
