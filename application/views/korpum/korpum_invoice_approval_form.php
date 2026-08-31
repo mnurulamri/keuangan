@@ -19,7 +19,7 @@ $keterangan = 'Transaksi selesai';
 <input type="hidden" id="no_invoice_pp" value="<?=$result[0]['no_invoice_pp']?>" >
 <input type="hidden" id="uraian" value="<?=$result[0]['uraian']?>" >
 <input type="hidden" id="id_pengajuan_pemohon" value="<?=$array_id_pengajuan_pemohon?>" >
-<input type="hidden" id="nomor_pengajuan" value="<?=$result[0]['nomor_pengajuan']?>" >
+<input type="hidden" id="nomor_pengajuan" value="<?=$array_nomor_pengajuan?>" >
 <input type="hidden" id="id_monitoring" value="<?=$result[0]['id_monitoring']?>" >
 
 <table class="styled-table" id="invoice-table" width="100%">
@@ -168,7 +168,7 @@ $keterangan = 'Transaksi selesai';
         <div class="box box-default" style="background-color:#eeeeee">
             <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header text-center text-success" style="padding:5px; font-size:16px">
-                <b><i class="fa fa-money"></i> Disetujui</b>
+                <b><i class="fa fa-money"></i> Lanjut Proses</b>
             </div>
             <div class="box-body text-center">
                 <b class="text-success">Tanggal Transfer</b>
@@ -281,7 +281,7 @@ dibatalkan.addEventListener('change', updateToggleUI);
 updateToggleUI();
 </script>
 <div class="text-center" style="margin-top:10px">
-    <button class="btn btn-primary send_to_akuntan" data-no_tiket="<?=$result[0]['no_tiket']?>" data-id_pengajuan_pemohon="<?=$result[0]['id_pengajuan_pemohon']?>" >Send to Akuntan</button>
+    <button class="btn btn-primary send_to_akuntan" data-no_tiket="<?=$result[0]['no_tiket']?>" data-id_pengajuan_pemohon="<?=$result[0]['id_pengajuan_pemohon']?>" style="display:none" >Send to Akuntan</button>
     <button class="btn btn-primary" id="simpan-kendali-dokumen" style="display:none" >Simpan Kendali Dokumen</button>
 </div>
 
@@ -328,22 +328,41 @@ $(document).ready(function()
 
     // Event Klik Terbayar
     $('#btn-simpan-bayar').on('click', function() {
-        var data = {
+         data = {
+
             id_pengajuan_pemohon: $('#id_pengajuan_pemohon').val(),
+
+            nomor_pengajuan: $('#nomor_pengajuan').val(),
+
             no_tiket: '<?=$result[0]['no_tiket']?>',
+
             kode_status: 76,
+
             tgl_transfer: $('#tgl_transfer').val(),
+
             keterangan: $('#keterangan_transfer').val(),
+
             
+
             invoice_tanggal: $("#invoice_tanggal").val(),
+
             invoice_waktu: $("#invoice_waktu").val(),
+
             nomor_pengajuan: $("#nomor_pengajuan").val(),
+
             id_monitoring: $("#id_monitoring").val()
+
         };
+
         
+
         kendali_dokumen(data); 
+
         //return false;
-        prosesStatus('<?=base_url("korpum/invoice_pp/simpan_bayar")?>', data, 'Yakin ingin mengubah ke status TERBAYAR?');
+
+        //prosesStatus('<?=base_url("korpum/invoice_pp/simpan_bayar")?>', data, 'Yakin ingin mengubah ke status TERBAYAR?');
+
+        prosesStatus('<?=base_url("korpum/invoice_pp/simpan_transfer")?>', data, 'Yakin ingin mengubah ke status TERBAYAR?');
     });	
 
     // Event Klik Terbayar
@@ -436,6 +455,10 @@ function prosesStatus(url, data, pesan) {
                 } else {
                     alert('Gagal: ' + response.message);
                 }*/
+
+                $('#modal-invoice').modal('hide');
+
+                location.reload();
             },
             error: function() {
                 alert('Terjadi kesalahan koneksi.');

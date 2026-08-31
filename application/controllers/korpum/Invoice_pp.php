@@ -271,12 +271,19 @@ class Invoice_pp extends CI_Controller {
 	    //echo '<pre>';print_r($this->input->post());echo '</pre>'; exit();
 	    $no_tiket = $this->input->post('no_tiket');
 	    $array_id_pengajuan_pemohon = $this->input->post('id_pengajuan_pemohon');
+	    $array_nomor_pengajuan = $this->input->post('nomor_pengajuan');
 	    
-        $sql = "SELECT id_monitoring, b.nomor_pengajuan, b.uraian as uraian, a.uraian as uraian_pengajuan, b.no_invoice_pp, b.no_tiket, b.tahun, b.bulan, b.tgl, a.kode_dpsj, a.deskripsi_dpsj, a.kode_kegiatan, a.kode_akun, a.kode_dana, a.aktual_report as aktual, a.pph, a.netto, b.id_pengajuan_pemohon as id_pengajuan_pemohon, invoice_status, form, pph_d02, netto_d02, netto_d01_d02
+        /*$sql = "SELECT id_monitoring, b.nomor_pengajuan, b.uraian as uraian, a.uraian as uraian_pengajuan, b.no_invoice_pp, b.no_tiket, b.tahun, b.bulan, b.tgl, a.kode_dpsj, a.deskripsi_dpsj, a.kode_kegiatan, a.kode_akun, a.kode_dana, a.aktual_report as aktual, a.pph, a.netto, b.id_pengajuan_pemohon as id_pengajuan_pemohon, invoice_status, form, pph_d02, netto_d02, netto_d01_d02
                 FROM view_pengajuan_rincian_realisasi a, invoice_rekap_procost b 
                 WHERE a.id_pengajuan_pemohon = b.id_pengajuan_pemohon AND b.no_tiket = ? AND a.id_pengajuan_pemohon = ?
                 ORDER BY b.tahun DESC, b.bulan DESC, b.tgl DESC, b.no_invoice_pp DESC, b.nomor_pengajuan ASC"; 
-        $query = $this->db->query($sql, array($no_tiket, $array_id_pengajuan_pemohon[0]));
+        $query = $this->db->query($sql, array($no_tiket, $array_id_pengajuan_pemohon[0]));*/
+        $sql = "SELECT id_monitoring, b.nomor_pengajuan, b.uraian as uraian, a.uraian as uraian_pengajuan, b.no_invoice_pp, b.no_tiket, b.tahun, b.bulan, b.tgl, a.kode_dpsj, a.deskripsi_dpsj, a.kode_kegiatan, a.kode_akun, a.kode_dana, a.aktual_report as aktual, a.pph, a.netto, b.id_pengajuan_pemohon as id_pengajuan_pemohon, invoice_status, form, pph_d02, netto_d02, netto_d01_d02
+                FROM view_pengajuan_rincian_realisasi a, invoice_rekap_procost b 
+                WHERE a.id_pengajuan_pemohon = b.id_pengajuan_pemohon AND b.no_tiket = ? AND a.id_pengajuan_pemohon IN (".implode(",", $array_id_pengajuan_pemohon).")
+                ORDER BY b.tahun DESC, b.bulan DESC, b.tgl DESC, b.no_invoice_pp DESC, b.nomor_pengajuan ASC";
+        $query = $this->db->query($sql, array($no_tiket));
+        
         $data['result'] = $query->result_array();
         
         // set id_pengajuan_pemohon
@@ -285,6 +292,7 @@ class Invoice_pp extends CI_Controller {
         }*/
 
         $data['array_id_pengajuan_pemohon'] = implode(",", $array_id_pengajuan_pemohon);
+        $data['array_nomor_pengajuan'] = implode(",", $array_nomor_pengajuan);
         
         // cari keterangan ivoice di tabel monitoring berdasarkan id_pengajuan_pemohon
         $this->db->where('no_tiket', $no_tiket);
@@ -320,8 +328,63 @@ class Invoice_pp extends CI_Controller {
         
     }
 
+    // simpan transfer akan menyimpan seluruh pengajuan yang terdapat dalam no invoice pp
+    public function simpan_transfer() {
+        // 1. get data post
+        $ids = explode(',', $this->input->post('id_pengajuan_pemohon'));
+        $tgl_transfer_ke_cashcard_ls = $this->input->post('tgl_transfer');
+        $catatan = $this->input->post('keterangan');
+        $kode_status = $this->input->post('kode_status');
+        
+        // 2. Hilangkan duplikasi jika perlu (opsional)
+        $unique_ids = array_unique($ids);
+        
+        // 3. Persiapkan array untuk insert_batch
+        $data_batch = [];
+        
+        foreach ($unique_ids as $id) {
+            $data_batch[] = array(
+                'id_pengajuan_pemohon' => trim($id), // trim untuk memastikan tidak ada spasi
+                'tgl_transfer_ke_cashcard_ls' => $tgl_transfer_ke_cashcard_ls,
+                'kode_status' => 76
+            );
+        }
+        
+        // 4. Jalankan insert_batch untuk tabel monitoring 
+        if (!empty($data_batch)) {
+            //echo 'test';
+            $this->db->update_batch('monitoring', $data_batch, 'id_pengajuan_pemohon');
+            //echo '<pre>'; print_r($data_batch);echo '</pre>';
+        }
+        //echo '<pre>';print_r($data_batch);echo '</pre>'; exit();
+    }
+
     public function simpan_retur() {
         //echo '<pre>';print_r($this->input->post());echo '</pre>'; exit();
+        
+        $ids = explode(',', $this->input->post('id_pengajuan_pemohon'));
+        
+        // 2. Hilangkan duplikasi jika perlu (opsional)
+        $unique_ids = array_unique($ids);
+        
+        // 3. Persiapkan array untuk insert_batch
+        $data_batch = [];
+        
+        foreach ($unique_ids as $id) {
+            $data_batch[] = array(
+                'id_pengajuan_pemohon' => trim($id), // trim untuk memastikan tidak ada spasi
+                'tgl_retur_dari_pau' => $this->input->post('tgl_retur_dari_pau'),
+                'kode_status' => $this->input->post('kode_status'), 
+                'catatan' => $this->input->post('keterangan')
+            );
+        }
+        //echo '<pre>';print_r($data_batch);echo '</pre>'; exit();
+        // 4. Jalankan insert_batch untuk tabel monitoring 
+        if (!empty($data_batch)) {
+            //echo 'test';
+            $this->db->update_batch('monitoring', $data_batch, 'id_pengajuan_pemohon');
+            //echo '<pre>'; print_r($data_batch);echo '</pre>';
+        }
         
         // update tabel monitoring, set kode_status berdasarkan input kode_status dan tgl_retur_dari_pau
         $data = array(

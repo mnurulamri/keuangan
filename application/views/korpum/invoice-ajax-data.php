@@ -32,6 +32,7 @@ foreach($periode as $thn => $bulan_data){
         <tr style="background-color:#43A5BE; color:#fff">
             <th width="2px">No</th>  
             <th>PERIODE</th>  
+            <th></th>
             <th>NO INVOICE PP</th>
             <th>URAIAN</th>
             <th><input type="checkbox" id="selectAll" onclick="toggleAll(this)"></th>
@@ -67,11 +68,14 @@ foreach($periode as $thn => $bulan_data){
     								$style = 'style="color:#fff; border-bottom:1px solid #fff;"';
                                     $style_invoice = 'style="color:#fff; border-bottom:1px solid #fff;"';
     								$button_approval ='';
+								    $button_lanjut_proses ='';
+									$button_retur ='';
                                     $row_nomor_pengajuan = '';
                                     $row_no_invoice_pp = '';
                                     $row_uraian = '';
                                     $row_no = '';
                                     $row_tanggal = '';
+                                    $checklist_no_invoice_pp = '';
     							} else {
     								$style = 'style="color:#444; border-bottom:1px solid #fff;"';
                                     $style_invoice = 'style="color:#367fa9; font-weight:bold; border-bottom:1px solid #fff;"';
@@ -88,8 +92,31 @@ foreach($periode as $thn => $bulan_data){
                                             data-toggle="modal" data-target="#modal-invoice">
                                             Approval </button>';
                                             //onclick="document.getElementById(\'myModal\').style.display=\'block\'" >Approval'.$row['id_pengajuan_pemohon'].'</button>';
+   
+                                    $button_lanjut_proses = '<button class="btn btn-success btn-xs lanjut-proses" 
+                                            data-no_tiket="'.$no_tiket.'" 
+                                            data-no_invoice_pp="'.$row['no_invoice_pp'].'"
+                                            data-uraian="'.$row['uraian'].'"
+                                            data-tahun="'.$row['tahun'].'"
+                                            data-bulan="'.$row['bulan'].'"
+                                            data-tgl="'.$row['tgl'].'"
+                                            data-id_pengajuan_pemohon="'.$row['id_pengajuan_pemohon'].'"
+                                            data-toggle="modal" data-target="#modal-invoice">
+                                            Approval </button>';
+                                            //onclick="document.getElementById(\'myModal\').style.display=\'block\'" >Approval'.$row['id_pengajuan_pemohon'].'</button>';
+                                            
 
-                                     
+                                    $button_retur = '<button class="btn btn-danger btn-xs retur" 
+                                            data-no_tiket="'.$no_tiket.'" 
+                                            data-no_invoice_pp="'.$row['no_invoice_pp'].'"
+                                            data-uraian="'.$row['uraian'].'"
+                                            data-tahun="'.$row['tahun'].'"
+                                            data-bulan="'.$row['bulan'].'"
+                                            data-tgl="'.$row['tgl'].'"
+                                            data-id_pengajuan_pemohon="'.$row['id_pengajuan_pemohon'].'"
+                                            data-toggle="modal" data-target="#modal-invoice">
+                                            Retur </button>';
+                                    $checklist_no_invoice_pp = '<input type="checkbox" class="check-invoice" data-tiket="' . $no_tiket . '"> ';
                                     $row_nomor_pengajuan = $row['nomor_pengajuan'];
                                     $row_no_invoice_pp = $row['no_invoice_pp'];
                                     $row_uraian = $row['uraian'];
@@ -99,9 +126,10 @@ foreach($periode as $thn => $bulan_data){
                                 echo '<tr>';
                                 echo '<td>' . $row_no . '</td>';
                                 echo '<td>' . $row_tanggal . '</td>';
+                                echo '<td id="no_invoice_pp_'.$no_tiket.'">'. $checklist_no_invoice_pp. '</td>';
                                 echo '<td id="no_invoice_pp_'.$no_tiket.'">' . $row_no_invoice_pp . '</td>';
                                 echo '<td id="uraian_'.$no_tiket.'">' . $row_uraian . '</td>';
-                                echo '<td class="text-center"><input type="checkbox" name="pilih[]" value="'.$row['id_pengajuan_pemohon'].'" class="pilih_'.$no_tiket.'"></td>';
+                                echo '<td class="text-center"><input type="checkbox" name="pilih[]" value="'.$row['id_pengajuan_pemohon'].'" data-nomor_pengajuan="'.$row['nomor_pengajuan'].'" class="pilih_'.$no_tiket.'"></td>';
                                 echo '<td>' . $row['nomor_pengajuan'] . '</td>';
                                 echo '<td>' . $row['kode_kegiatan'] . '</td>';
                                 echo '<td>' . $row['kode_akun'] . '</td>';
@@ -124,11 +152,11 @@ foreach($periode as $thn => $bulan_data){
                                     if($j > 1){  //kosongkan button untuk baris berikutnya
                                         $button_approval ='';
                                     } else {
-                                        $button_approval = '<button class="btn btn-success btn-xs" data-no_tiket="'.$no_tiket.'" disabled>Approval</button>';
+                                        //$button_approval = '<button class="btn btn-success btn-xs" data-no_tiket="'.$no_tiket.'" disabled >Approval</button>';
                                     }    
                                 }                            
                                 //echo '<td>' . $button_edit . '</td>';
-                                echo '<td '.$style.'>' . $button_approval .'</td>';
+                                echo '<td '.$style.'>' . $button_lanjut_proses .' '. $button_retur. '</td>';
                                 echo '</tr>';   
                                 $j++;
                                 $pph = ($row['form'] == 'D02') ? $row['pph_d02'] : $row['pph'];
@@ -177,7 +205,7 @@ function filterTable() {
         const tds = row.getElementsByTagName("td");
         if (tds.length < 2) continue;
 
-        const cellInvoice = tds[2] ? tds[2].textContent.trim().toUpperCase() : "";
+        const cellInvoice = tds[3] ? tds[3].textContent.trim().toUpperCase() : "";
         const cellPengajuan = tds[5] ? tds[5].textContent.trim().toUpperCase() : "";
         const isTotalRow = tds[0].textContent.includes("TOTAL");
 

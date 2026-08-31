@@ -422,7 +422,7 @@ $(document).ready(function()
 			alert('Anda harus memilih setidaknya 1 nomor pengajuan untuk diproses.');
 			return false;
 		}
-
+		
 		// jika terdapat lebih dari 1 id_pengajuan_pemohon yang dipilih, tampilkan alert dan hentikan proses
 		if (id_pengajuan_pemohon.length > 1) {
 			// tutup modal jika ada lebih dari 1 id_pengajuan_pemohon yang dipilih
@@ -431,6 +431,116 @@ $(document).ready(function()
 			// nonaktifkan checkbox yang dipilih			
 			$('.pilih_'+no_tiket).prop('checked', false);
 			return false;	
+		}
+
+        var data = {
+            tgl: $(this).data('tgl'),
+            bulan: $(this).data('bulan'),
+            tahun: $(this).data('tahun'),
+            no_tiket: $(this).data('no_tiket'),
+            no_invoice_pp: $(this).data('no_invoice_pp'),
+            uraian: $(this).data('uraian'),
+			id_pengajuan_pemohon: id_pengajuan_pemohon,
+        };
+      	//alert('Data yang akan dikirim ke akuntan: ' + JSON.stringify(data)); // Debugging alert
+		//return false; // Hentikan eksekusi lebih lanjut untuk debugging
+      	$.ajax({
+            url: "<?=base_url()?>korpum/invoice_pp/invoice_approval_form",
+            type: "POST",
+            data: data,
+            success: function(html) {
+                //$('#modal-invoice').modal('hide');
+                $("#data-invoice").html(html);
+                //fetch_data(); // Reload tabel utama
+            }
+        });
+        
+        // pindah ke halaman pilihan data
+        //post_to_url("<?=base_url()?>invoice_update/index", data, 'post');
+    });
+    
+    // lanjut proses
+    $(document).on('click', '.lanjut-proses', function() {
+        $("#data-invoice").html('loading...');
+
+        // set variabel data	
+		var no_tiket = $(this).data('no_tiket');	
+        var id_pengajuan_pemohon = [];
+        var nomor_pengajuan = [];
+        
+        $('.pilih_'+no_tiket+':checked').each(function(){ 
+            id_pengajuan_pemohon.push($(this).val()); 
+            nomor_pengajuan.push($(this).data("nomor_pengajuan"));
+        });
+
+		// distinct id_pengajuan_pemohon
+		id_pengajuan_pemohon = [...new Set(id_pengajuan_pemohon)];
+		nomor_pengajuan = [...new Set(nomor_pengajuan)];
+
+		// jika tidak ada id_pengajuan_pemohon yang dipilih, tampilkan alert dan hentikan proses
+		if (id_pengajuan_pemohon.length === 0) {
+			// tutup modal jika tidak ada id_pengajuan_pemohon yang dipilih
+			$('#modal-invoice').modal('hide');
+			alert('Anda harus memilih setidaknya 1 nomor pengajuan untuk diproses.');
+			return false;
+		}
+
+        var data = {
+            tgl: $(this).data('tgl'),
+            bulan: $(this).data('bulan'),
+            tahun: $(this).data('tahun'),
+            no_tiket: $(this).data('no_tiket'),
+            no_invoice_pp: $(this).data('no_invoice_pp'),
+            uraian: $(this).data('uraian'),
+			id_pengajuan_pemohon: id_pengajuan_pemohon,
+			nomor_pengajuan: nomor_pengajuan
+        };
+      	//alert('Data yang akan dikirim ke akuntan: ' + JSON.stringify(data)); // Debugging alert
+		//return false; // Hentikan eksekusi lebih lanjut untuk debugging
+      	$.ajax({
+            url: "<?=base_url()?>korpum/invoice_pp/invoice_approval_form",
+            type: "POST",
+            data: data,
+            success: function(html) {
+                //$('#modal-invoice').modal('hide');
+                $("#data-invoice").html(html);
+                //fetch_data(); // Reload tabel utama
+            }
+        });
+        
+        // pindah ke halaman pilihan data
+        //post_to_url("<?=base_url()?>invoice_update/index", data, 'post');
+    });
+    
+    // Ketika checkbox invoice diklik
+    $(document).on('change', '.check-invoice', function() {
+        // Ambil nomor tiket dari data-tiket induknya
+        var noTiket = $(this).data('tiket');
+        var isChecked = $(this).is(':checked');
+        
+        // Centang/hilangkan centang pada semua checkbox anak dengan class pilih_NOTIKET
+        $('.pilih_' + noTiket).prop('checked', isChecked);
+    });
+    
+    // retur
+    $(document).on('click', '.retur', function() {
+    	alert('underconstruction..'); return false;
+        $("#data-invoice").html('loading...');
+
+        // set variabel data	
+		var no_tiket = $(this).data('no_tiket');	
+        var id_pengajuan_pemohon = [];
+        $('.pilih_'+no_tiket+':checked').each(function(){ id_pengajuan_pemohon.push($(this).val()); });
+
+		// distinct id_pengajuan_pemohon
+		id_pengajuan_pemohon = [...new Set(id_pengajuan_pemohon)];
+
+		// jika tidak ada id_pengajuan_pemohon yang dipilih, tampilkan alert dan hentikan proses
+		if (id_pengajuan_pemohon.length === 0) {
+			// tutup modal jika tidak ada id_pengajuan_pemohon yang dipilih
+			$('#modal-invoice').modal('hide');
+			alert('Anda harus memilih setidaknya 1 nomor pengajuan untuk diproses.');
+			return false;
 		}
 
         var data = {
