@@ -467,6 +467,9 @@ $(document).ready(function()
 		var no_tiket = $(this).data('no_tiket');	
         var id_pengajuan_pemohon = [];
         var nomor_pengajuan = [];
+		
+		// set flag approve = 1 untuk menampilkan box lanjut proses
+		var flag_box_approve = 'lanjut_proses';
         
         $('.pilih_'+no_tiket+':checked').each(function(){ 
             id_pengajuan_pemohon.push($(this).val()); 
@@ -493,7 +496,8 @@ $(document).ready(function()
             no_invoice_pp: $(this).data('no_invoice_pp'),
             uraian: $(this).data('uraian'),
 			id_pengajuan_pemohon: id_pengajuan_pemohon,
-			nomor_pengajuan: nomor_pengajuan
+			nomor_pengajuan: nomor_pengajuan,
+			flag_box_approve: flag_box_approve
         };
       	//alert('Data yang akan dikirim ke akuntan: ' + JSON.stringify(data)); // Debugging alert
 		//return false; // Hentikan eksekusi lebih lanjut untuk debugging
@@ -524,16 +528,25 @@ $(document).ready(function()
     
     // retur
     $(document).on('click', '.retur', function() {
-    	alert('underconstruction..'); return false;
+    	//alert('underconstruction..'); return false;
         $("#data-invoice").html('loading...');
 
         // set variabel data	
 		var no_tiket = $(this).data('no_tiket');	
         var id_pengajuan_pemohon = [];
-        $('.pilih_'+no_tiket+':checked').each(function(){ id_pengajuan_pemohon.push($(this).val()); });
+		var nomor_pengajuan = [];
+
+		// set flag approve = 1 untuk menampilkan box lanjut proses
+		var flag_box_approve = 'retur';
+
+        $('.pilih_'+no_tiket+':checked').each(function(){ 
+            id_pengajuan_pemohon.push($(this).val()); 
+            nomor_pengajuan.push($(this).data("nomor_pengajuan"));
+        });
 
 		// distinct id_pengajuan_pemohon
 		id_pengajuan_pemohon = [...new Set(id_pengajuan_pemohon)];
+		nomor_pengajuan = [...new Set(nomor_pengajuan)];
 
 		// jika tidak ada id_pengajuan_pemohon yang dipilih, tampilkan alert dan hentikan proses
 		if (id_pengajuan_pemohon.length === 0) {
@@ -551,6 +564,8 @@ $(document).ready(function()
             no_invoice_pp: $(this).data('no_invoice_pp'),
             uraian: $(this).data('uraian'),
 			id_pengajuan_pemohon: id_pengajuan_pemohon,
+			nomor_pengajuan: nomor_pengajuan,
+			flag_box_approve: flag_box_approve
         };
       	//alert('Data yang akan dikirim ke akuntan: ' + JSON.stringify(data)); // Debugging alert
 		//return false; // Hentikan eksekusi lebih lanjut untuk debugging

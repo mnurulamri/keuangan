@@ -9,7 +9,7 @@ foreach($result as $row){
 }
 
 $keterangan = 'Transaksi selesai';
-//echo '<pre>';print_r($array_id_pengajuan_pemohon);echo '</pre>';exit();
+//echo '<pre>';print_r($flag_box_approve);echo '</pre>';exit();
 ?>
 <div id="test_script"></div>
 
@@ -163,73 +163,78 @@ $keterangan = 'Transaksi selesai';
 </div>
 <br>
 <div class="row">
-    <div class="col-md-6">
-        <!-- Widget: user widget style 1 -->
-        <div class="box box-default" style="background-color:#eeeeee">
-            <!-- Add the bg color to the header using any of the bg-* classes -->
-            <div class="widget-user-header text-center text-success" style="padding:5px; font-size:16px">
-                <b><i class="fa fa-money"></i> Lanjut Proses</b>
+
+    <?php if($flag_box_approve == 'lanjut_proses'){ ?>
+
+        <div class="col-md-12">
+            <!-- Widget: user widget style 1 -->
+            <div class="box box-default" style="background-color:#eeeeee">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header text-center text-success" style="padding:5px; font-size:16px">
+                    <b><i class="fa fa-money"></i> Lanjut Proses</b>
+                </div>
+                <div class="box-body text-center">
+                    <b class="text-success">Tanggal Transfer</b>
+                    <input type="date" class="form-controlx" id="tgl_transfer" name="tgl_transfer" value="<?=date('Y-m-d')?>">
+                    <br><br>
+                    <textarea class="form-control col-sm-9" id="keterangan_transfer" name="keterangan_transfer" rows="2"><?=$keterangan?></textarea>
+                    <br><br>
+                    <div class="row">
+                        <br>
+                        <div class="col-md-1"></div>
+                        <button type="button" class="btn btn-success" id="btn-simpan-bayar">
+                            <i class="fa fa-save"></i> Simpan 
+                        </button>
+                        <div class="col-md-1"></div>
+                    </div>
+                </div>
             </div>
-            <div class="box-body text-center">
-                <b class="text-success">Tanggal Transfer</b>
-                <input type="date" class="form-controlx" id="tgl_transfer" name="tgl_transfer" value="<?=date('Y-m-d')?>">
-                <br><br>
-                <textarea class="form-control col-sm-9" id="keterangan_transfer" name="keterangan_transfer" rows="2"><?=$keterangan?></textarea>
-                <br><br>
-                <div class="row">
-                    <br>
-                    <div class="col-md-1"></div>
-                    <button type="button" class="btn btn-success" id="btn-simpan-bayar">
+        <!-- /.widget-user -->
+        </div>
+    <?php } else { ?>
+        <div class="col-md-12">
+            <!-- Widget: user widget style 1 -->
+            <div class="box box-default" style="background-color:#eeeeee">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header text-center text-danger" style="padding:5px; font-size:16px">
+                    <b><i class="fa fa-times"></i> Retur </b>
+                </div>
+                <div class="box-body text-center">
+                    
+                    <div style="">
+                        <b style="color:#ed1a72">Tanggal Retur dari PAU </b>
+                        <input type="date" class="form-controlx" id="tgl_retur_dari_pau" name="tgl_retur_dari_pau" value="<?=date('Y-m-d')?>">
+                        <br><br>
+                        <textarea class="form-control col-sm-6" id="keterangan_retur_pau" name="keterangan_retur_pau" rows="2">Transaksi...</textarea>
+                    </div>
+                    <br><br><br>
+                    <div class="simple-toggle" id="simpleToggle">
+                        <input type="radio" name="retur" value="tanpa_perubahan" id="tanpa_perubahan"
+                                data-no_tiket="<?=$result[0]['no_tiket']?>" 
+                                data-id_pengajuan_pemohon="<?=$array_id_pengajuan_pemohon?>">
+                        <label for="tanpa_perubahan" class="toggle-option-simple active" id="labelTanpaPerubahan">Pending</label>
+                        
+                        <input type="radio" name="retur" value="dengan_perubahan" id="dengan_perubahan" checked
+                                data-no_tiket="<?=$result[0]['no_tiket']?>" 
+                                data-id_pengajuan_pemohon="<?=$array_id_pengajuan_pemohon?>">
+                        <label for="dengan_perubahan" class="toggle-option-simple" id="labelDenganPerubahan">Dikembalikan</label>
+                        
+                        <input type="radio" name="retur" value="dibatalkan" id="dibatalkan"
+                                data-no_tiket="<?=$result[0]['no_tiket']?>" 
+                                data-id_pengajuan_pemohon="<?=$array_id_pengajuan_pemohon?>">
+                        <label for="dibatalkan" class="toggle-option-simple active" id="labelDibatalkan">Dibatalkan</label>
+                    </div>
+                    
+                    <div style="">
+                        
+                    </div>
+                    <button type="button" class="btn btn-danger" id="btn-simpan-retur">
                         <i class="fa fa-save"></i> Simpan 
                     </button>
-                    <div class="col-md-1"></div>
                 </div>
             </div>
         </div>
-    <!-- /.widget-user -->
-    </div>
-    <div class="col-md-6">
-        <!-- Widget: user widget style 1 -->
-        <div class="box box-default" style="background-color:#eeeeee">
-            <!-- Add the bg color to the header using any of the bg-* classes -->
-            <div class="widget-user-header text-center text-danger" style="padding:5px; font-size:16px">
-                <b><i class="fa fa-times"></i> Retur </b>
-            </div>
-            <div class="box-body text-center">
-                
-                <div style="">
-                    <b style="color:#ed1a72">Tanggal Retur dari PAU </b>
-                    <input type="date" class="form-controlx" id="tgl_retur_dari_pau" name="tgl_retur_dari_pau" value="<?=date('Y-m-d')?>">
-                    <br><br>
-                    <textarea class="form-control col-sm-6" id="keterangan_retur_pau" name="keterangan_retur_pau" rows="2">Transaksi...</textarea>
-                </div>
-                <br><br><br>
-                <div class="simple-toggle" id="simpleToggle">
-                    <input type="radio" name="retur" value="tanpa_perubahan" id="tanpa_perubahan"
-                            data-no_tiket="<?=$result[0]['no_tiket']?>" 
-                            data-id_pengajuan_pemohon="<?=$array_id_pengajuan_pemohon?>">
-                    <label for="tanpa_perubahan" class="toggle-option-simple active" id="labelTanpaPerubahan">Pending</label>
-                    
-                    <input type="radio" name="retur" value="dengan_perubahan" id="dengan_perubahan" checked
-                            data-no_tiket="<?=$result[0]['no_tiket']?>" 
-                            data-id_pengajuan_pemohon="<?=$array_id_pengajuan_pemohon?>">
-                    <label for="dengan_perubahan" class="toggle-option-simple" id="labelDenganPerubahan">Dikembalikan</label>
-                    
-                    <input type="radio" name="retur" value="dibatalkan" id="dibatalkan"
-                            data-no_tiket="<?=$result[0]['no_tiket']?>" 
-                            data-id_pengajuan_pemohon="<?=$array_id_pengajuan_pemohon?>">
-                    <label for="dibatalkan" class="toggle-option-simple active" id="labelDibatalkan">Dibatalkan</label>
-                </div>
-                
-                <div style="">
-                    
-                </div>
-                <button type="button" class="btn btn-danger" id="btn-simpan-retur">
-                    <i class="fa fa-save"></i> Simpan 
-                </button>
-            </div>
-        </div>
-    </div>                                       
+    <?php } ?>                               
 </div>
 <script>
 var denganPerubahan = document.getElementById('dengan_perubahan');
@@ -328,40 +333,26 @@ $(document).ready(function()
 
     // Event Klik Terbayar
     $('#btn-simpan-bayar').on('click', function() {
-         data = {
+        var data = {
 
             id_pengajuan_pemohon: $('#id_pengajuan_pemohon').val(),
-
             nomor_pengajuan: $('#nomor_pengajuan').val(),
-
             no_tiket: '<?=$result[0]['no_tiket']?>',
-
             kode_status: 76,
-
             tgl_transfer: $('#tgl_transfer').val(),
-
-            keterangan: $('#keterangan_transfer').val(),
-
-            
+            keterangan: $('#keterangan_transfer').val(),            
 
             invoice_tanggal: $("#invoice_tanggal").val(),
-
             invoice_waktu: $("#invoice_waktu").val(),
-
             nomor_pengajuan: $("#nomor_pengajuan").val(),
-
             id_monitoring: $("#id_monitoring").val()
-
         };
 
         
 
         kendali_dokumen(data); 
-
         //return false;
-
         //prosesStatus('<?=base_url("korpum/invoice_pp/simpan_bayar")?>', data, 'Yakin ingin mengubah ke status TERBAYAR?');
-
         prosesStatus('<?=base_url("korpum/invoice_pp/simpan_transfer")?>', data, 'Yakin ingin mengubah ke status TERBAYAR?');
     });	
 

@@ -293,6 +293,7 @@ class Invoice_pp extends CI_Controller {
 
         $data['array_id_pengajuan_pemohon'] = implode(",", $array_id_pengajuan_pemohon);
         $data['array_nomor_pengajuan'] = implode(",", $array_nomor_pengajuan);
+        $data['flag_box_approve'] = $this->input->post('flag_box_approve');
         
         // cari keterangan ivoice di tabel monitoring berdasarkan id_pengajuan_pemohon
         $this->db->where('no_tiket', $no_tiket);
@@ -352,9 +353,8 @@ class Invoice_pp extends CI_Controller {
         
         // 4. Jalankan insert_batch untuk tabel monitoring 
         if (!empty($data_batch)) {
-            //echo 'test';
+            //update tabel monitoring, set kode_status = 76 dan tgl_transfer (dikirim ke ls)
             $this->db->update_batch('monitoring', $data_batch, 'id_pengajuan_pemohon');
-            //echo '<pre>'; print_r($data_batch);echo '</pre>';
         }
         //echo '<pre>';print_r($data_batch);echo '</pre>'; exit();
     }
@@ -375,17 +375,22 @@ class Invoice_pp extends CI_Controller {
                 'id_pengajuan_pemohon' => trim($id), // trim untuk memastikan tidak ada spasi
                 'tgl_retur_dari_pau' => $this->input->post('tgl_retur_dari_pau'),
                 'kode_status' => $this->input->post('kode_status'), 
-                'catatan' => $this->input->post('keterangan')
+                'catatan' => $this->input->post('keterangan'),
+                'keterangan_retur_pau' => $this->input->post('keterangan')
             );
         }
         //echo '<pre>';print_r($data_batch);echo '</pre>'; exit();
         // 4. Jalankan insert_batch untuk tabel monitoring 
         if (!empty($data_batch)) {
-            //echo 'test';
+            //update tabel monitoring, set kode_status berdasarkan input kode_status dan tgl_retur_dari_pau
             $this->db->update_batch('monitoring', $data_batch, 'id_pengajuan_pemohon');
-            //echo '<pre>'; print_r($data_batch);echo '</pre>';
         }
-        
+
+        // ubah invoice_status di tabel invoice_rekap_procost menjadi 2 (retur) berdasarkan nomor_pengajuan
+        $this->db->where_in('id_pengajuan_pemohon', $unique_ids);
+        $this->db->update('invoice_rekap_procost', array('invoice_status' => 2));
+
+        /*
         // update tabel monitoring, set kode_status berdasarkan input kode_status dan tgl_retur_dari_pau
         $data = array(
             'kode_status' => $this->input->post('kode_status'),
@@ -403,7 +408,7 @@ class Invoice_pp extends CI_Controller {
         
         $this->db->where('id', $this->input->post('id_pengajuan_pemohon'));
         $this->db->update('pengajuan_pemohon', $data);
-        
+        */
     }
 
     public function send_to_akuntan() {
