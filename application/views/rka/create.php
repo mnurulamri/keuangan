@@ -93,7 +93,7 @@
                             
                             <div class="form-group">
                                 <label>Kategori Kegiatan</label>
-                                <select class="form-control" name="kategori_kegiatan" id="kategori_kegiatan">
+                                <select class="form-control" name="kategori_kegiatan" id="kategori_kegiatan"> 
                                     <option value="">-- Pilih Kategori Kegiatan --</option>
                                     <option value="Operasional">Operasional</option>
                                     <option value="Pengembangan">Pengembangan</option>

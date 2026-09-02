@@ -71,7 +71,7 @@
                             
                             <div class="form-group">
                                 <label>Kategori Kegiatan</label>
-                                <select class="form-control" name="kategori_kegiatan" id="kategori_kegiatan">
+                                <select class="form-control" name="kategori_kegiatan" id="kategori_kegiatan"> 
                                     <option value="">-- Pilih Kategori Kegiatan --</option>
                                     <option value="Operasional" <?php echo (isset($anggaran->kategori_kegiatan) && $anggaran->kategori_kegiatan == 'Operasional') ? 'selected' : ''; ?>>Operasional</option>
                                     <option value="Pengembangan" <?php echo (isset($anggaran->kategori_kegiatan) && $anggaran->kategori_kegiatan == 'Pengembangan') ? 'selected' : ''; ?>>Pengembangan</option>

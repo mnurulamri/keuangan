@@ -130,7 +130,7 @@ class RKA extends CI_Controller {
                 'kode_dana' => $this->input->post('kode_dana'),
                 'kode_akun' => $this->input->post('kode_akun'),
                 'deskripsi_akun' => $this->input->post('deskripsi_akun'),
-                'kategori_kegiatan' => $this->input->post('kategori_kegiatan'),
+                'kategori_kegiatan' => $this->input->post('kategori_kegiatan'), 
                 'anggaran' => $this->input->post('anggaran') ?: 0,
                 'komitmen' => $this->input->post('komitmen') ?: 0,
                 'flag_payroll' => $this->input->post('flag_payroll')
