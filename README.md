@@ -89,7 +89,7 @@ Troubleshooting umum
 
 Lisensi
 
-- Tidak ada file lisensi di repo. Jika Anda ingin menambahkan lisensi (MIT/Apache/GPL), beri tahu saya dan saya buatkan file `LICENSE`.
+- Tidak ada file lisensi di repo. 
 
 Follow-up yang disarankan
 
@@ -98,13 +98,7 @@ Follow-up yang disarankan
 - Tambah unit tests untuk model utama (`Anggaran_model`, `Rka_model`)
 - Tambah dokumentasi API singkat jika frontend berbicara ke endpoint AJAX
 
-Jika Anda mau, saya bisa:
-
-- Membuat file dump SQL struktur minimal untuk menjalankan contoh data
-- Memperbaiki beberapa titik SQL injection di controller menjadi query binding
-- Membuat dokumentasi endpoint API lebih rinci (contoh payload/respons)
-
 ---
-README dibuat otomatis oleh asisten. Jika ada hal spesifik yang ingin ditambahkan (bahasa, penjelasan lebih teknis, contoh query), beri tahu saya.
+
 # keuangan
  Sistem Informasi Pengajuan Uang Muka
